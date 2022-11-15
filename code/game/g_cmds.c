@@ -2740,7 +2740,7 @@ char *message;
 const char *src;
 const char *pos;
 char c;
-char voicecmd[MAX_VOICECMD_TOKENS];
+
 qboolean dotext;
 
 dotext = qtrue;
