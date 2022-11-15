@@ -2727,9 +2727,10 @@ void G_ParseTextTokens ( gentity_t *ent, const char *src, char *dest, int textle
 	*dest = '\0';
 }
 
+//Crash fix (Say command overflow)
 /*
 ==================
-G_ParseVoiceCommands - Crash Fix (Say Command) - BuLLy 15/11/2022
+G_ParseVoiceCommands
 ==================
 */
 void G_ParseVoiceCommands ( gentity_t *ent, const char *chatText, char *text, int textlen, char *sound )
@@ -2781,7 +2782,7 @@ num = num * 10 + c;
 if (!(num > 0 && num < 1025))
 {
 Com_Printf("[RoCmod ERROR]Invalid VoiceCmd Sound Parsed.");
-G_LogPrintf( "[RoCmod VoiceCmd ERROR]: %s: %s\n", ent->client->pers.netname, chatText );
+G_LogPrintf( "[Heret!cmod VoiceCmd ERROR]: %s: %s\n", ent->client->pers.netname, chatText );
 return;
 }
 
@@ -2792,10 +2793,12 @@ c = *src;
 
 if (!(num > 0 && num < 1025) && !voicecmds.voiceCommandSound[num][0])
 {
+//Heret!cmod Fix - Voice Commands Overflow
 *text++ = dotext?'@':'&';
 src = pos;
 len--;
 continue;
+//========================================
 }
 
 if ( ent != NULL && ent->client->sess.modData->adminref < 2 && ent->client->sess.modData->adminref != -1 && voicecmds.voiceCommandFlag[num] == VOICE_ADMIN_ONLY )
@@ -2805,6 +2808,18 @@ src = pos;
 continue;
 }
 if ( ent != NULL && !ent->client->sess.modData->clan && voicecmds.voiceCommandFlag[num] == VOICE_CLAN_ONLY )
+{
+*text++ = dotext?'@':'&';
+src = pos;
+continue;
+}
+if ( ent != NULL && ent->client->sess.modData->adminref < 4 && ent->client->sess.modData->adminref > -3 && voicecmds.voiceCommandFlag[num] == VOICE_FOUNDER_ONLY )
+{
+*text++ = dotext?'@':'&';
+src = pos;
+continue;
+}
+if ( ent != NULL && ent->client->sess.modData->adminref < 4 && ent->client->sess.modData->adminref > -3 && voicecmds.voiceCommandFlag[num] == VOICE_COFOUNDER_ONLY )
 {
 *text++ = dotext?'@':'&';
 src = pos;
@@ -2826,7 +2841,7 @@ continue;
 strcpy( sound, voicecmds.voiceCommandSound[num] );
 message = voicecmds.voiceCommandText[num];
 
-G_LogPrintf( "[RoCmod] VoiceCmd Text: %s\n", message );
+G_LogPrintf( "[RoCMod] VoiceCmd Text: %s\n", message );
 
 if ( dotext && (num > 0 && num < 1025) && message != NULL)
 {
@@ -2839,7 +2854,7 @@ len--;
 }
 *text = '\0';
 }
-//Crash Fix (Say Command) - BuLLy 15/11/2022
+//STOP COPY HERE
 
 /*
 ==================
