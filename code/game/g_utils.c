@@ -784,17 +784,20 @@ void G_EntitySound( gentity_t *ent, int channel, int soundIndex ) {
 ===========
 G_BroadcastSound
 
-Broadcasts an entity to all clients to play a sound
+Broadcasts an entity to all clients to play a sound - Multikill - BuLLy 10/06/2024
 ============
 */
 void G_BroadcastSound( char *filename )
 {
-	gentity_t *te;
-	vec3_t origin;
+	G_BroadcastSoundIndex(G_SoundIndex( filename ));
+}
 
-	origin[0] = origin[1] = origin[2] = 0;
-	te = G_TempEntity(origin, EV_GLOBAL_SOUND);
-	te->s.eventParm = G_SoundIndex( filename );
+void G_BroadcastSoundIndex( int soundIndex )
+{
+	gentity_t *te;
+
+	te = G_TempEntity(vec3_origin, EV_GLOBAL_SOUND);
+	te->s.eventParm = soundIndex;
 	te->r.svFlags |= SVF_BROADCAST;
 }
 

@@ -230,6 +230,7 @@ void player_die(
 	if ( attacker && attacker->client )
 	{
 		trap_GT_SendEvent ( GTEV_CLIENT_DEATH, level.time, self->s.number, self->client->sess.team, attacker->s.number, attacker->client->sess.team, 0 ); 
+		#include "multikill_In_GTEV_CLIENT_DEATH.c" // Multikill Feature - BuLLy 10/06/2024
 	}
 	else
 	{
@@ -452,6 +453,45 @@ void player_die(
 				attacker->client->sess.modData->recondata->kills++;
 				attacker->client->sess.modData->currkillspree++;
 			}
+			
+			//Multikill Feature - Maxxi 8/07/2018
+			if ( g_killSpree.integer && !level.warmupTime )
+			{
+				team = level.teamData.teamcolor[attacker->client->sess.team];
+				i = attacker->client->sess.modData->currkillspree / KILL_SPREE_INTERVAL;
+				if ( !level.firstBlood || i > attacker->client->sess.modData->lastkillspree && i >= g_killSpree.integer && i < 6
+				  && multikill.kills[attacker->s.number] < i && ( multikill.playEnds < level.time || multikill.playNext < level.time && multikill.top <= i ) )
+				{
+					char team = *level.teamData.teamcolor[attacker->client->sess.team];
+					if ( level.firstBlood )
+					{
+						const int playlength[2][6] = { {1280, 1024, 800, 1024, 480, 1024 }, {1600, 1280, 1024, 1280, 1024, 1024 } };
+						const char* SpreeNames[6] = { "on a killing spree", "on a rampage", "dominating", "unstoppable", "godlike", "cheating" };
+						attacker->client->sess.modData->lastkillspree = i;
+						//trap_SendServerCommand( -1, va("cp \"^%c%s^%c is %s!\n\"", team, attacker->client->pers.netname, team, SpreeNames[i-1]));
+						trap_SendServerCommand( -1, va("cp \"%s ^7is %s!\n\"", attacker->client->pers.netname, SpreeNames[i-1]));
+						if ( voicecmds.voicePromptSound[i][0] )
+						{
+							multikill.top = i;
+							multikill.playNext = level.time + playlength[0][i-1];
+							multikill.playEnds = level.time + playlength[1][i-1];;
+							G_BroadcastSound( voicecmds.voicePromptSound[i] );
+						}
+					}
+					else
+					{
+						level.firstBlood = qtrue;
+						trap_SendServerCommand( -1, va("cp \"^%c%s^%c has drawn first blood!\n\"", team, attacker->client->pers.netname, team));
+						if ( voicecmds.voicePromptSound[8][0] )
+						{
+							multikill.playNext = level.time + 1600;
+							multikill.playEnds = level.time + 1664;
+							G_BroadcastSound( voicecmds.voicePromptSound[8] );
+						}
+					}
+				}
+			}
+			// End Multikill Feature - BuLLy 10/06/2024
 
 			if ( g_killSpree.integer && !level.warmupTime )
 			{

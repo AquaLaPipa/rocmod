@@ -8,6 +8,7 @@ voiceCommands_t	voicecmds;
 scanList_t		scanlist;
 clientRecon_t	recondata[MAX_CLIENTS];
 chatFilter_t	chatfilter;
+multikill_t		multikill; // MultiKill - BuLLy 10/06/2024
 
 typedef struct 
 {
@@ -285,6 +286,8 @@ vmCvar_t	exitReady;
 vmCvar_t	disable_armor;
 vmCvar_t	disable_thermal;
 vmCvar_t	disable_nightvision;
+vmCvar_t	g_multikillInterval; // Multikill - BuLLy 10/06/2024
+vmCvar_t	g_multikillMin; // Multikill - BuLLy 10/06/2024
 
 static cvarTable_t gameCvarTable[] = 
 {
@@ -616,6 +619,8 @@ static cvarTable_t gameCvarTable[] =
 
 	{ &inMatch, "inMatch", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },
 	{ &exitReady, "exitReady", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },
+	{ &g_multikillInterval, "g_multikillInterval", "2048", CVAR_ARCHIVE, 0, 0 }, // MultiKill - BuLLy 10/06/2024
+	{ &g_multikillMin, "g_multikillMin", "2", CVAR_ARCHIVE|CVAR_LOCK_RANGE, 2, MULTIKILL_MAX }, // MultiKill - BuLLy 10/06/2024
 };
 
 // bk001129 - made static to avoid aliasing
@@ -1634,6 +1639,14 @@ void G_InitGame( int levelTime, int randomSeed, int restart )
 		G_SoundIndex( "sound/player/gurp1.wav" );
 		G_SoundIndex( "sound/player/gurp2.wav" );
 	}
+	
+	//Multikill Feature - BuLLy 10/06/2024
+	multikill.soundIndex =			G_SoundIndex( "sound/Multikill/DoubleKill.mp3" );
+									G_SoundIndex( "sound/Multikill/Tripplekill.mp3" );
+									G_SoundIndex( "sound/Multikill/Multikill.mp3" );
+									G_SoundIndex( "sound/Multikill/Ultrakill.mp3" );
+									G_SoundIndex( "sound/Multikill/Monsterkill.mp3" );
+	multikill.monsterkillEffect =	G_EffectIndex( "effects/Multikill/monsterkill.efx" );
 
 #ifdef _SOF2_BOTS
 	if ( trap_Cvar_VariableIntegerValue( "bot_enable" ) ) 
@@ -3873,6 +3886,7 @@ void G_RunFrame( int levelTime )
 		}
 		trap_Cvar_Set("g_listEntity", "0");
 	}
+	#include "multikill_In_GT_RunFrame.c" //Multikill Feature - BuLLy 10/06/2024
 }
 
 void G_InitGhoul ( void )

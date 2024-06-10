@@ -34,6 +34,11 @@
 
 #define	MAX_SPAWNS					128
 
+//Multikill - BuLLy 10/06/2024
+#include "multikill.h"
+#define KILL_SPREE_INTERVAL 5
+void G_BroadcastSoundIndex( int soundIndex );
+
 // movers are things like doors, plats, buttons, etc
 typedef enum 
 {
@@ -1528,6 +1533,10 @@ extern	vmCvar_t	g_scannerInterval;
 extern	vmCvar_t	g_scannerRepeat;
 extern	vmCvar_t	g_scannerDefaultAction;
 extern	vmCvar_t	g_scannerlog;
+
+//Multikill - BuLLy 10/06/2024
+extern	vmCvar_t	g_multikillInterval;
+extern	vmCvar_t	g_multikillMin;
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
