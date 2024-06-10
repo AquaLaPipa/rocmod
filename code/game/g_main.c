@@ -288,6 +288,7 @@ vmCvar_t	disable_thermal;
 vmCvar_t	disable_nightvision;
 vmCvar_t	g_multikillInterval; // Multikill - BuLLy 10/06/2024
 vmCvar_t	g_multikillMin; // Multikill - BuLLy 10/06/2024
+vmCvar_t	g_explosionKnockback; // Explosion Knockback - BuLLy 11/06/2024
 
 static cvarTable_t gameCvarTable[] = 
 {
@@ -616,6 +617,8 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_scannerRepeat, "g_scannerRepeat", "3", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_scannerDefaultAction, "g_scannerDefaultAction", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_scannerlog, "g_scannerlog", "scanner.log", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	
+	{ &g_explosionKnockback, "g_explosionKnockback",  "600", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Explosion Knockback - BuLLy 11/06/2024
 
 	{ &inMatch, "inMatch", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },
 	{ &exitReady, "exitReady", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },

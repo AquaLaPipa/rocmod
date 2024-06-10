@@ -1394,6 +1394,28 @@ int G_Damage (
 		if ( targ->client )
 		{
 			targ->client->ps.stats[STAT_HEALTH] = targ->health;
+			
+			// Explosion Knockback - BuLLy 11/06/2024
+			switch ( mod & 0xff )
+	        	{
+		            	case WP_M4_ASSAULT_RIFLE:
+		                	if ( (mod >> 8) != ATTACK_ALTERNATE )
+							break;
+			    		case MOD_TRIGGER_HURT_NOSUICIDE: // Players who get killed by a trigger_hurt (usually caused by a bomb)
+		            	case WP_MM1_GRENADE_LAUNCHER:
+		            	case WP_RPG7_LAUNCHER:
+		            	case WP_SMOHG92_GRENADE:
+					if ( targ->health <= 0 )
+					{
+						targ->client->ps.velocity[2] = 3.2f * sqrt(g_explosionKnockback.value * (take > 100 ? 100 : take) * 0.75 * DEFAULT_GRAVITY / g_gravity.value); // 0.75 is more realistic (for a dead body)?
+			                }
+					else
+					{
+						targ->client->ps.velocity[2] = 3.2f * sqrt(g_explosionKnockback.value * (take > 100 ? 100 : take));
+			                }
+			                break;
+	        	}
+			//End Explosion Knockback - BuLLy 11/06/2024
 
 			if ( targ->health > 0 )
 			{

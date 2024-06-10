@@ -1538,6 +1538,9 @@ extern	vmCvar_t	g_scannerlog;
 extern	vmCvar_t	g_multikillInterval;
 extern	vmCvar_t	g_multikillMin;
 
+//Explosion Knockback - BuLLy 11/06/2024
+extern	vmCvar_t	g_explosionKnockback;
+
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
 int		trap_Milliseconds( void );
