@@ -3622,7 +3622,7 @@ void Cmd_CallVote_f( gentity_t *ent )
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
 	}
 
-	trap_SendServerCommand( -1, va("print \"%s called a vote.\n\"", ent->client->pers.netname ) );
+	trap_SendServerCommand( -1, va("cp \"%s ^7called a vote.\n\"", ent->client->pers.netname ) );
 	recondata[level.voteClient].voteCount++;
 
 	if ( voicecmds.voicePromptSound[16][0] )
@@ -3666,46 +3666,59 @@ Cmd_Vote_f
 */
 void Cmd_Vote_f( gentity_t *ent ) 
 {
-	char msg[64];
+    char msg[64];
+    char *voteStr;  // Variable to store the vote string
+    int remainingVotes;
 
-	if ( !level.voteTime ) 
-	{
-		trap_SendServerCommand( ent-g_entities, "print \"No vote in progress.\n\"" );
-		return;
-	}
+    if ( !level.voteTime ) 
+    {
+        trap_SendServerCommand( ent-g_entities, "print \"No vote in progress.\n\"" );
+        return;
+    }
 
-	if ( ent->client->ps.eFlags & EF_VOTED ) 
-	{
-		trap_SendServerCommand( ent-g_entities, "print \"Vote already cast.\n\"" );
-		return;
-	}
+    if ( ent->client->ps.eFlags & EF_VOTED ) 
+    {
+        trap_SendServerCommand( ent-g_entities, "print \"Vote already cast.\n\"" );
+        return;
+    }
 
-	if ( ent->client->sess.team == TEAM_SPECTATOR ) 
-	{
-		trap_SendServerCommand( ent-g_entities, "print \"Not allowed to vote as spectator.\n\"" );
-		return;
-	}
+    if ( ent->client->sess.team == TEAM_SPECTATOR ) 
+    {
+        trap_SendServerCommand( ent-g_entities, "print \"Not allowed to vote as spectator.\n\"" );
+        return;
+    }
 
-	trap_SendServerCommand( ent-g_entities, "print \"Vote cast.\n\"" );
+    trap_Argv( 1, msg, sizeof( msg ) );
 
-	ent->client->ps.eFlags |= EF_VOTED;
+    if ( msg[0] == 'y' || msg[0] == 'Y' || msg[0] == '1' ) 
+    {
+        level.voteYes++;
+        trap_SetConfigstring( CS_VOTE_YES, va("%i", level.voteYes ));
+        voteStr = "^<YES";
+        G_LocalSound( ent->s.number, "sound/radio/male/affirm.mp3" );  // Play "Yes" sound
+    } 
+    else 
+    {
+        level.voteNo++;
+        trap_SetConfigstring( CS_VOTE_NO, va("%i", level.voteNo ));
+        voteStr = "^$NO";
+        G_LocalSound( ent->s.number, "sound/radio/male/neg.mp3" );  // Play "No" sound
+    }
 
-	trap_Argv( 1, msg, sizeof( msg ) );
+    // Calculate remaining votes needed for the vote to pass
+    remainingVotes = level.numVotesNeeded - (level.voteYes + level.voteNo);
 
-	if ( msg[0] == 'y' || msg[1] == 'Y' || msg[1] == '1' ) 
-	{
-		level.voteYes++;
-		trap_SetConfigstring( CS_VOTE_YES, va("%i", level.voteYes ) );
-	} 
-	else 
-	{
-		level.voteNo++;
-		trap_SetConfigstring( CS_VOTE_NO, va("%i", level.voteNo ) );	
-	}
+    // Broadcasting the vote and remaining votes needed
+    trap_SendServerCommand(-1, va("cp \"%s ^7voted %s\n^3Votes needed: ^7%d\n\"", ent->client->pers.netname, voteStr, remainingVotes));
 
-	// a majority will be determined in CheckVote, which will also account
-	// for players entering or leaving
+    ent->client->ps.eFlags |= EF_VOTED; // Mark as voted
+    trap_SendServerCommand( ent-g_entities, "print \"Vote cast.\n\"" );
+
+    // a majority will be determined in CheckVote, which will also account
+    // for players entering or leaving
 }
+
+
 
 /*
 =================
