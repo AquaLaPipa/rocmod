@@ -3706,7 +3706,7 @@ void Cmd_Vote_f( gentity_t *ent )
     }
 
     // Calculate remaining votes needed for the vote to pass
-    remainingVotes = level.numVotesNeeded - (level.voteYes + level.voteNo);
+    remainingVotes = level.numVotesNeeded - level.voteYes;
 
     // Broadcasting the vote and remaining votes needed
     trap_SendServerCommand(-1, va("cp \"%s ^7voted %s\n^3Votes needed: ^7%d\n\"", ent->client->pers.netname, voteStr, remainingVotes));
