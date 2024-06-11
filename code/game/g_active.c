@@ -906,6 +906,15 @@ Actions that happen once a second
 */
 void ClientOneSecActions( gentity_t *ent ) 
 {
+	int				usetags;								//
+	int				currtag;								//
+	char		buffer[MAX_TOKEN_CHARS];
+	int			id;
+	gentity_t	*id_ent;
+	gclient_t	*client;
+	float		count;
+	vec3_t		angles;
+	
 	// See if they need to be released from the penalty box
 	if ( ent->client->sess.modData->penalty && level.time > ent->client->ps.respawnTimer )
 	{
@@ -946,6 +955,143 @@ void ClientOneSecActions( gentity_t *ent )
 		}
 		trap_SendServerCommand( ent-g_entities, va("cp \"@\n^1You have been thrown into the penalty box!\n^7Reason: ^5%s\n^3Time remaining: ^7%i seconds\n\"", text, time) );
 	}
+// Health Regeneration - BuLLy
+	if (!level.match && g_healing.integer && ent->health > 0 ) {
+		if (ent->health < MAX_HEALTH - 4 || (g_healing.integer > 1 && ent->client->ps.stats[STAT_ARMOR] < MAX_ARMOR - 4)) {
+			trap_SendServerCommand(ent-g_entities, "cp \"" "@" "^7[^$YOU ARE HURT^7]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n^3Take Cover NOW! ^-- ^7-Health Regenerating..." "\n" "\"");
+		}
+		if (ent->health < MAX_HEALTH || ent->health > MAX_HEALTH) {
+			if (ent->health < MAX_HEALTH - 95) {
+							trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$MORTALLY INJURED^7]\n\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/ambience/hospital/heartmon02.wav" );
+				ent->health += 4;
+			}
+			if (ent->health >= MAX_HEALTH - 95 && ent->health < MAX_HEALTH - 90) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/ambience/hospital/heartmon02.wav" );
+				ent->health += 4;
+
+			}
+			if (ent->health >= MAX_HEALTH - 90 && ent->health < MAX_HEALTH - 85) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$CRITICALLY WOUNDED^7]\n\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/ambience/hospital/heartmon01.wav" );
+				ent->health += 2;
+			}
+			if (ent->health >= MAX_HEALTH - 85 && ent->health < MAX_HEALTH - 80) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/ambience/hospital/heartmon01.wav" );
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 80 && ent->health < MAX_HEALTH - 75) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$CRITICALLY WOUNDED^7]\n\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^$^C^T^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/ambience/hospital/heartmon01.wav" );
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 75 && ent->health < MAX_HEALTH - 70) {
+							trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^C^T^k^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 70 && ent->health < MAX_HEALTH - 65) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$SEVERELY INJURED^7]\n\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^T^k^z^-" "\n" "\"");
+				ent->health += 6;
+				G_LocalSound( ent->s.number, "sound/misc/models/struggle.wav" );
+
+			}
+			if (ent->health >= MAX_HEALTH - 65 && ent->health < MAX_HEALTH - 60) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^$^C^T^k^z^b^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 60 && ent->health < MAX_HEALTH - 55) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$SEVERELY INJURED^7]\n\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 55 && ent->health < MAX_HEALTH - 50) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 50 && ent->health < MAX_HEALTH - 45) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$SEVERELY INJURED^7]\n\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 45 && ent->health < MAX_HEALTH - 40) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 40 && ent->health < MAX_HEALTH - 35) {
+							trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$SEVERELY INJURED^7]\n\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 35 && ent->health < MAX_HEALTH - 30) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 30 && ent->health < MAX_HEALTH - 25) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$WOUNDED^7]\n\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 25 && ent->health < MAX_HEALTH - 20) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^E^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 20 && ent->health < MAX_HEALTH - 15) {
+							trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$WOUNDED^7]\n\n\n\n\n\n\n\n^7You are healing..\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^E^v^-" "\n" "\"");
+				G_LocalSound( ent->s.number, "sound/misc/models/cough04.mp3" );
+				ent->health += 6;
+
+			}
+			if (ent->health >= MAX_HEALTH - 15 && ent->health < MAX_HEALTH - 10) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n\n^3Take Cover Now!\n\n\n\n\n\n\n^7You are healing...\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^E^v^g^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 10 && ent->health < MAX_HEALTH - 5) {
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^$WOUNDED^7]\n\n\n\n\n\n\n\n^7You are healing.\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^E^v^g^S^-" "\n" "\"");
+				ent->health += 2;
+
+			}
+			if (ent->health >= MAX_HEALTH - 5) {
+								G_LocalSound( ent->s.number, "sound/misc/menus/apply_changes.wav" );
+								trap_SendServerCommand(ent-g_entities, "cp \"" "@" "\n\n^7[^PHEALING COMPLETE^7]\n^7Health = ^3100 ^2| ^7Armour = ^3100\n\n\n\n\n\n\n^7You have fully recovered from your injuries...\n^7[^$^7] ^{^_^$^C^T^k^z^b^@^N^@^b^z^2^?^E^v^g^S^P " "\n" "\"");
+				ent->health += 5;
+
+			}
+			if (ent->health > MAX_HEALTH) {
+				ent->health = MAX_HEALTH;
+			}
+			ent->client->ps.stats[STAT_HEALTH] = ent->health;
+		}
+		if (g_healing.integer > 1 && (ent->client->ps.stats[STAT_ARMOR] < MAX_ARMOR || ent->client->ps.stats[STAT_ARMOR] > MAX_ARMOR)) {
+			if (ent->client->ps.stats[STAT_ARMOR] < MAX_ARMOR - 40) {
+				ent->client->ps.stats[STAT_ARMOR] += 10;
+			}
+			if (ent->client->ps.stats[STAT_ARMOR] >= MAX_ARMOR - 40 && ent->client->ps.stats[STAT_ARMOR] < MAX_ARMOR - 20) {
+				ent->client->ps.stats[STAT_ARMOR] += 10;
+			}
+			if (ent->client->ps.stats[STAT_ARMOR] >= MAX_ARMOR - 20) {
+				ent->client->ps.stats[STAT_ARMOR] += 10;
+			}
+			if (ent->client->ps.stats[STAT_ARMOR] > MAX_ARMOR) {
+				ent->client->ps.stats[STAT_ARMOR] = MAX_ARMOR;
+			}
+		}
+	}
+
+// End Health Regeneration
+
+
+///
 
 	// Verify the client mod and display a warning if necessary
 	if ( g_verifyClients.integer && !ent->client->sess.modData->versionVerified && level.time - ent->client->sess.modData->versionWarnTime > 2000 )
@@ -989,6 +1135,8 @@ void ClientOneSecActions( gentity_t *ent )
 		}
 	}
 }
+
+
 
 /*
 ==================
