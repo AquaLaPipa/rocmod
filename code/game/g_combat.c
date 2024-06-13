@@ -8,6 +8,57 @@ void BotDamageNotification	( gclient_t *bot, gentity_t *attacker );
 
 /*
 ============
+Check Ammo - BuLLy 13/06/2024
+
+Checks the clients ammo every frame and shows a warning when their weapon is low or out of ammo.
+============
+*/
+void CheckAmmo( gentity_t *ent )
+{     
+   int	        weapon;
+   gitem_t*	item;
+   
+   weapon = ent->s.weapon; 
+
+   if ( !( ent->client->ps.stats[STAT_WEAPONS] & ( 1 << weapon ) ) ) 
+   {
+      weapon = WP_NONE;
+   }
+   
+   if ( !(weapon > WP_NONE && weapon < WP_NUM_WEAPONS) )
+   {
+      return;  
+   }
+   if ( ent->client->ps.ammo[ weaponData[weapon].attack[ATTACK_NORMAL].ammoIndex ] != 0 )
+   {
+      ent->client->sess.modData->AmmoWarningType = 0;
+      ent->client->sess.modData->AmmoWarningDisplayed = qfalse;
+      return;     
+   }
+   
+   if ( ent->client->ps.ammo[ weaponData[weapon].attack[ATTACK_NORMAL].ammoIndex ] == 0 && ent->client->ps.clip[ATTACK_NORMAL][weapon] == 0) 
+   { 
+      if (!(ent->client->sess.modData->AmmoWarningDisplayed) || ent->client->sess.modData->AmmoWarningType != 2) {
+        trap_SendServerCommand( ent-g_entities, "cp \"^7[^$OUT OF AMMO!^7]\n\"");
+        ent->client->sess.modData->AmmoWarningDisplayed = qtrue;
+        ent->client->sess.modData->AmmoWarningType = 2;
+        return;
+      }
+   } 
+   else if (ent->client->ps.ammo[ weaponData[weapon].attack[ATTACK_NORMAL].ammoIndex ] == 0 && (ent->client->ps.clip[ATTACK_NORMAL][weapon] > 0 && ent->client->ps.clip[ATTACK_NORMAL][weapon] <= 40))
+   {      
+      if (!(ent->client->sess.modData->AmmoWarningDisplayed) || ent->client->sess.modData->AmmoWarningType != 1) {
+        trap_SendServerCommand( ent-g_entities, "cp \"^7[^3LOW AMMO!^7]\n\"");
+        ent->client->sess.modData->AmmoWarningDisplayed = qtrue;
+        ent->client->sess.modData->AmmoWarningType = 1;
+        return;
+      }   
+   }
+}
+
+
+/*
+============
 G_AddScore
 
 Adds score to both the client and his team

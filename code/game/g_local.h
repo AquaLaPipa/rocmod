@@ -393,6 +393,8 @@ typedef struct
 	int					periodicTimer;		// Timer used for periodic (every few seconds) routines
 	int					oneSecTimer;		// Timer used for onece-a-second routines
 	int					scanTimer;			// Timer used for file scanning
+	int 				AmmoWarningType; 	//0 = No Warning, 1 = Low On Ammo, 2 = Out Of Ammo. - BuLLy 13/06/2024 - Check Ammo
+	qboolean 			AmmoWarningDisplayed; //qtrue ? qfalse - BuLLy 13/06/2024 - Check Ammo
 } sessionMod_t;
 
 // client data that stays across multiple levels or map restarts
@@ -1106,6 +1108,7 @@ void G_CheckClientFry		( gentity_t *ent );
 void ClientThink			( int clientNum );
 void ClientEndFrame			( gentity_t *ent );
 void G_RunClient			( gentity_t *ent );
+void CheckAmmo 				( gentity_t *ent ); // Check Ammo - BuLLy 13/06/2024
 
 //
 // g_team.c

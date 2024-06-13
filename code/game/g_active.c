@@ -1752,6 +1752,7 @@ void ClientThink_real( gentity_t *ent )
 
 	// perform once-per-frame actions
 	ClientTimerActions( ent, msec );
+	CheckAmmo( ent ); // Check Ammo - BuLLy 13/06/2024
 }
 
 /*
