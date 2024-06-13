@@ -9,3 +9,4 @@
 3. Added explosion knockback so that players are thrown back when in the radius of an explosion, ie: grenades, rockets etc..
 4. Added vote announcements, players can now see what other players voted for, also added a count for remaining required votes to pass or fail a vote.
 5. Added health regeneration, if a player is injured they heal back to full health and or armour.
+6. Added vote logging: Player votes are now stored and shown in a list below the vote. Previously voting was anonymous, now all players can see other players vote choices.
