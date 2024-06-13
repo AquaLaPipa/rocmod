@@ -1284,6 +1284,22 @@ extern	char *MsgMuted;
 extern	char *MsgPenalty;
 extern	char *MsgSysop;
 
+// Vote Tracking
+#define MAX_VOTE_RECORDS 32  // Adjust as needed
+
+typedef struct {
+    char playerName[MAX_NAME_LENGTH];
+    qboolean vote;
+} voteRecord_t;
+
+extern voteRecord_t voteRecords[MAX_VOTE_RECORDS];
+extern int numVoteRecords;
+
+void ClearVoteRecords(void);
+void RecordVote(gentity_t *ent, qboolean vote);
+extern char voteInitiatorName[MAX_NAME_LENGTH];
+//end vote tracking
+
 
 #define	FOFS(x) ((int)&(((gentity_t *)0)->x))
 

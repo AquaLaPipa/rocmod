@@ -3365,6 +3365,9 @@ void Cmd_CallVote_f( gentity_t *ent )
 		trap_SendServerCommand( ent-g_entities, "print \"Invalid vote string.\n\"" );
 		return;
 	}
+	
+	// New code to store the vote description and initiator's name
+	Q_strncpyz(voteInitiatorName, ent->client->pers.netname, sizeof(voteInitiatorName));
 
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
 	} else if ( !Q_stricmp( arg1, "mapcycle" ) ) {
@@ -3664,58 +3667,84 @@ void Cmd_CallVote_f( gentity_t *ent )
 Cmd_Vote_f
 ==================
 */
-void Cmd_Vote_f( gentity_t *ent ) 
-{
-    char msg[64];
-    char *voteStr;  // Variable to store the vote string
+
+void RecordVote(gentity_t *ent, qboolean vote) {
+    if (numVoteRecords >= MAX_VOTE_RECORDS) return;
+
+    Q_strncpyz(voteRecords[numVoteRecords].playerName, ent->client->pers.netname, sizeof(voteRecords[numVoteRecords].playerName));
+    voteRecords[numVoteRecords].vote = vote;
+    numVoteRecords++;
+}
+
+void UpdateVoteDisplayString(void) {
+    char voteString[MAX_STRING_CHARS];
+    char voteEntry[MAX_STRING_CHARS];
+    int i;  // Declare the loop variable outside the for loop
     int remainingVotes;
+	
+	// Initialize voteString with the existing vote description
+    Q_strncpyz(voteString, level.voteDisplayString, sizeof(voteString));
 
-    if ( !level.voteTime ) 
-    {
-        trap_SendServerCommand( ent-g_entities, "print \"No vote in progress.\n\"" );
-        return;
+
+    // Add the initiator's vote
+    Com_sprintf(voteEntry, sizeof(voteEntry), "\n\n\n\n\n^5CURRENT VOTES:\n%s ^7= ^<YES\n", voteInitiatorName);
+    Q_strcat(voteString, sizeof(voteString), voteEntry);
+
+    for (i = 0; i < numVoteRecords; i++) {
+        Com_sprintf(voteEntry, sizeof(voteEntry), "%s ^7= %s\n", voteRecords[i].playerName, voteRecords[i].vote ? "^<YES" : "^$NO");
+        Q_strcat(voteString, sizeof(voteString), voteEntry);
     }
 
-    if ( ent->client->ps.eFlags & EF_VOTED ) 
-    {
-        trap_SendServerCommand( ent-g_entities, "print \"Vote already cast.\n\"" );
-        return;
-    }
-
-    if ( ent->client->sess.team == TEAM_SPECTATOR ) 
-    {
-        trap_SendServerCommand( ent-g_entities, "print \"Not allowed to vote as spectator.\n\"" );
-        return;
-    }
-
-    trap_Argv( 1, msg, sizeof( msg ) );
-
-    if ( msg[0] == 'y' || msg[0] == 'Y' || msg[0] == '1' ) 
-    {
-        level.voteYes++;
-        trap_SetConfigstring( CS_VOTE_YES, va("%i", level.voteYes ));
-        voteStr = "^<YES";
-        G_LocalSound( ent->s.number, "sound/radio/male/affirm.mp3" );  // Play "Yes" sound
-    } 
-    else 
-    {
-        level.voteNo++;
-        trap_SetConfigstring( CS_VOTE_NO, va("%i", level.voteNo ));
-        voteStr = "^$NO";
-        G_LocalSound( ent->s.number, "sound/radio/male/neg.mp3" );  // Play "No" sound
-    }
-
-    // Calculate remaining votes needed for the vote to pass
     remainingVotes = level.numVotesNeeded - level.voteYes;
+    Com_sprintf(voteEntry, sizeof(voteEntry), "^+-----------------------------------\n^3VOTES NEEDED: ^7%d\n", remainingVotes);
+    Q_strcat(voteString, sizeof(voteString), voteEntry);
 
-    // Broadcasting the vote and remaining votes needed
-    trap_SendServerCommand(-1, va("cp \"%s ^7voted %s\n^3Votes needed: ^7%d\n\"", ent->client->pers.netname, voteStr, remainingVotes));
+    trap_SetConfigstring(CS_VOTE_STRING, voteString);
+}
 
-    ent->client->ps.eFlags |= EF_VOTED; // Mark as voted
-    trap_SendServerCommand( ent-g_entities, "print \"Vote cast.\n\"" );
 
-    // a majority will be determined in CheckVote, which will also account
-    // for players entering or leaving
+
+void Cmd_Vote_f(gentity_t *ent) {
+    char msg[64];
+    char *voteStr;
+    qboolean vote;
+
+    if (!level.voteTime) {
+        trap_SendServerCommand(ent - g_entities, "print \"No vote in progress.\n\"");
+        return;
+    }
+
+    if (ent->client->ps.eFlags & EF_VOTED) {
+        trap_SendServerCommand(ent - g_entities, "print \"Vote already cast.\n\"");
+        return;
+    }
+
+    if (ent->client->sess.team == TEAM_SPECTATOR) {
+        trap_SendServerCommand(ent - g_entities, "print \"Not allowed to vote as spectator.\n\"");
+        return;
+    }
+
+    trap_Argv(1, msg, sizeof(msg));
+
+    if (msg[0] == 'y' || msg[0] == 'Y' || msg[0] == '1') {
+        level.voteYes++;
+        trap_SetConfigstring(CS_VOTE_YES, va("%i", level.voteYes));
+        voteStr = "^<YES";
+        G_LocalSound(ent->s.number, "sound/radio/male/affirm.mp3");
+        vote = qtrue;
+    } else {
+        level.voteNo++;
+        trap_SetConfigstring(CS_VOTE_NO, va("%i", level.voteNo));
+        voteStr = "^$NO";
+        G_LocalSound(ent->s.number, "sound/radio/male/neg.mp3");
+        vote = qfalse;
+    }
+
+    RecordVote(ent, vote);
+    UpdateVoteDisplayString();
+
+    ent->client->ps.eFlags |= EF_VOTED;
+    trap_SendServerCommand(ent - g_entities, "print \"Vote cast.\n\"");
 }
 
 

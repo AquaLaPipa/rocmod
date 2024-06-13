@@ -219,6 +219,8 @@ void Svcmd_CancelVote_f ( void )
 
 	trap_SendServerCommand( -1, "print \"^5Vote cancelled by admin.^7\n\"" );
 	G_BroadcastSound("sound/misc/events/flush.mp3");
+	// Clear vote records after the vote is cancelled
+    ClearVoteRecords();
 }
 
 /*

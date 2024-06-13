@@ -3316,6 +3316,15 @@ void CheckWarmup ( void )
 CheckVote
 ==================
 */
+char voteInitiatorName[MAX_NAME_LENGTH] = "";
+voteRecord_t voteRecords[MAX_VOTE_RECORDS];
+int numVoteRecords = 0;
+
+void ClearVoteRecords(void) {
+    numVoteRecords = 0;
+    memset(voteRecords, 0, sizeof(voteRecords));
+}
+
 void CheckVote( void ) 
 {
 	if ( level.voteExecuteTime && level.voteExecuteTime < level.time ) 
@@ -3411,7 +3420,8 @@ void CheckVote( void )
 		trap_SendServerCommand( -1, "print \"Vote failed.\n\"" );
 		recondata[level.voteClient].voteDelayTime = level.time + g_failedVoteDelay.integer * 60000;
 		G_LogPrintf("Vote failed.\n");
-
+// Clear vote records after the vote ends
+    ClearVoteRecords();
 		if ( voicecmds.voicePromptSound[18][0] )
 		{
 			G_BroadcastSound( voicecmds.voicePromptSound[18] );
@@ -3425,7 +3435,8 @@ void CheckVote( void )
 			trap_SendServerCommand( -1, "print \"Vote passed.\n\"" );
 			level.voteExecuteTime = level.time + 3000;
 			G_LogPrintf("Vote passed.\n");
-
+// Clear vote records after the vote ends
+    ClearVoteRecords();
 			if ( voicecmds.voicePromptSound[17][0] )
 			{
 				G_BroadcastSound( voicecmds.voicePromptSound[17] );
@@ -3437,7 +3448,8 @@ void CheckVote( void )
 			trap_SendServerCommand( -1, "print \"Vote failed.\n\"" );
 			recondata[level.voteClient].voteDelayTime = level.time + g_failedVoteDelay.integer * 60000;
 			G_LogPrintf("Vote failed.\n");
-
+// Clear vote records after the vote ends
+    ClearVoteRecords();
 			if ( voicecmds.voicePromptSound[18][0] )
 			{
 				G_BroadcastSound( voicecmds.voicePromptSound[18] );
