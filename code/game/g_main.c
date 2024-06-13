@@ -290,6 +290,7 @@ vmCvar_t	g_multikillInterval; // Multikill - BuLLy 10/06/2024
 vmCvar_t	g_multikillMin; // Multikill - BuLLy 10/06/2024
 vmCvar_t	g_explosionKnockback; // Explosion Knockback - BuLLy 11/06/2024
 vmCvar_t	g_healing; // Health Regeneration - BuLLy 11/06/2024
+vmCvar_t	g_KillCounter; // Kill Counter - BuLLy 13/06/2024
 
 static cvarTable_t gameCvarTable[] = 
 {
@@ -626,6 +627,7 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_multikillInterval, "g_multikillInterval", "2048", CVAR_ARCHIVE, 0, 0 }, // MultiKill - BuLLy 10/06/2024
 	{ &g_multikillMin, "g_multikillMin", "2", CVAR_ARCHIVE|CVAR_LOCK_RANGE, 2, MULTIKILL_MAX }, // MultiKill - BuLLy 10/06/2024
 	{ &g_healing, "g_healing", "2", CVAR_LATCH, 0.0, 0.0, 0, qfalse },	// Health Regneration - BuLLy 11/06/2024 - 0 = Disabled , 1 = Health Only, 2 = Health And Armor
+	{ &g_KillCounter, "g_KillCounter", "1", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Kill Counter - BuLLy 13/06/2024
 };
 
 // bk001129 - made static to avoid aliasing

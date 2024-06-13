@@ -62,6 +62,29 @@
 #define KILL_SPREE_5		25
 #define KILL_SPREE_6		50
 
+//KILL COUNTER - BuLLy 13/06/2024
+#define KILL_SPREE_7 1
+#define KILL_SPREE_8 2
+#define KILL_SPREE_9 3
+#define KILL_SPREE_10 4
+#define KILL_SPREE_11 6
+#define KILL_SPREE_12 7
+#define KILL_SPREE_13 8
+#define KILL_SPREE_14 9
+#define KILL_SPREE_15 11
+#define KILL_SPREE_16 12
+#define KILL_SPREE_17 13
+#define KILL_SPREE_18 14
+#define KILL_SPREE_19 16
+#define KILL_SPREE_20 17
+#define KILL_SPREE_21 18
+#define KILL_SPREE_22 19
+#define KILL_SPREE_23 21
+#define KILL_SPREE_24 22
+#define KILL_SPREE_25 23
+#define KILL_SPREE_26 24
+//END KILL COUNTER
+
 #define	DEFAULT_GRAVITY		800
 #define	ARMOR_PROTECTION	0.55
 

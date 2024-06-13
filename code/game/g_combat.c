@@ -520,7 +520,7 @@ void player_die(
 						const char* SpreeNames[6] = { "on a killing spree", "on a rampage", "dominating", "unstoppable", "godlike", "cheating" };
 						attacker->client->sess.modData->lastkillspree = i;
 						//trap_SendServerCommand( -1, va("cp \"^%c%s^%c is %s!\n\"", team, attacker->client->pers.netname, team, SpreeNames[i-1]));
-						trap_SendServerCommand( -1, va("cp \"%s ^7is %s!\n\"", attacker->client->pers.netname, SpreeNames[i-1]));
+						//trap_SendServerCommand( -1, va("cp \"%s ^7is %s!\n\"", attacker->client->pers.netname, SpreeNames[i-1]));
 						if ( voicecmds.voicePromptSound[i][0] )
 						{
 							multikill.top = i;
@@ -556,60 +556,108 @@ void player_die(
 						G_BroadcastSound( voicecmds.voicePromptSound[8] );
 					}
 				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_6 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_6 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_6;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is cheating!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[6][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[6] );
-					}
-				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_5 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_5 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_5;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is godlike!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[5][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[5] );
-					}
-				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_4 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_4 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_4;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is unstoppable!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[4][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[4] );
-					}
-				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_3 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_3 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_3;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is dominating!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[3][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[3] );
-					}
-				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_2 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_2 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_2;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is on a rampage!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[2][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[2] );
-					}
-				}
-				else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_1 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_1 )
-				{
-					attacker->client->sess.modData->lastkillspree = KILL_SPREE_1;
-					trap_SendServerCommand( -1, va("cp \"%s%s%s is on a killing spree!\n\"", team, attacker->client->pers.netname, team));
-					if ( voicecmds.voicePromptSound[1][0] )
-					{
-						G_BroadcastSound( voicecmds.voicePromptSound[1] );
-					}
-				}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_1 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_1 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_1;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s is on a ^3KILLING SPREE!\n^55 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Star ^7] -- [^z^-^7] ^3- ^7(Killing Spree)\n\"", team, attacker->client->pers.netname, team ) );
+    if ( voicecmds.voicePromptSound[1][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[1] );
+    }
+}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_2 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_2 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_2;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is on a ^3RAMPAGE!\n^510 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^-^7] ^3- ^7(Rampage)\n\"", team, attacker->client->pers.netname, team ) );
+    if ( voicecmds.voicePromptSound[2][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[2] );
+    }
+}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_3 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_3 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_3;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3DOMINATING!\n^515 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^C^-^7] ^3- ^7(Dominating)\n\"", team, attacker->client->pers.netname, team ) );
+    if ( voicecmds.voicePromptSound[3][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[3] );
+    }
+}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_4 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_4 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_4;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3UNSTOPPABLE!\n^520 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^C^{^-^7] ^3- ^7(Unstoppable!)\n\"", team, attacker->client->pers.netname, team ) );
+    if ( voicecmds.voicePromptSound[4][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[4] );
+    }
+}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_5 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_5 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_5;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3GODLIKE!\n^525 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- ^7[^z^@^C^{^$^7] ^3- ^7(Godlike!)\n\"", team, attacker->client->pers.netname, team ) );
+    if ( voicecmds.voicePromptSound[5][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[5] );
+    }
+}
+else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_6 && attacker->client->sess.modData->lastkillspree < KILL_SPREE_6 )
+{
+    attacker->client->sess.modData->lastkillspree = KILL_SPREE_6;
+	trap_SendServerCommand( -1, va("cp \"%s%s%s is an ^3ABSOLUTE BEAST!\n^7[ ^$ ^7] ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
+    if ( voicecmds.voicePromptSound[6][0] )
+    {
+        G_BroadcastSound( voicecmds.voicePromptSound[6] );
+    }
+}
+
+				
+				// Kill Counter - BuLLy
+if (g_KillCounter.integer && !level.warmupTime) {
+        int killSpreeThresholds[] = {KILL_SPREE_7, KILL_SPREE_8, KILL_SPREE_9, KILL_SPREE_10, KILL_SPREE_11,
+                                     KILL_SPREE_12, KILL_SPREE_13, KILL_SPREE_14, KILL_SPREE_15, KILL_SPREE_16,
+                                     KILL_SPREE_17, KILL_SPREE_18, KILL_SPREE_19, KILL_SPREE_20, KILL_SPREE_21,
+                                     KILL_SPREE_22, KILL_SPREE_23, KILL_SPREE_24, KILL_SPREE_25, KILL_SPREE_26};
+        
+        const char *killSpreeMessages[] = {
+            "cp \"\n^3[ ^$ ^71 ^EKill ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^72 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^73 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^74 ^EKills ^$ ^3]\n ^7One kill away from a ^3Killing Spree!\n\"",
+            "cp \"\n^3[ ^$ ^76 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^77 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^78 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^79 ^EKills ^$ ^3]\n ^7One kill away from a ^3Rampage!\n\"",
+            "cp \"\n^3[ ^$ ^711 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^712 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^713 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^714 ^EKills ^$ ^3]\n ^7One kill away from a ^3Dominating!\n\"",
+            "cp \"\n^3[ ^$ ^716 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^717 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^718 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^719 ^EKills ^$ ^3]\n ^7One kill away from a ^3Unstoppable!\n\"",
+            "cp \"\n^3[ ^$ ^721 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^722 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^723 ^EKills ^$ ^3]\n\"",
+            "cp \"\n^3[ ^$ ^724 ^EKills ^$ ^3]\n ^7One kill away from a ^3Godlike!\n\""
+        };
+
+        for (i = 0; i < sizeof(killSpreeThresholds) / sizeof(killSpreeThresholds[0]); i++) {
+            if (attacker->client->sess.modData->currkillspree >= killSpreeThresholds[i] && 
+                attacker->client->sess.modData->lastkillspree < killSpreeThresholds[i]) {
+                
+                attacker->client->sess.modData->lastkillspree = killSpreeThresholds[i];
+                trap_SendServerCommand(attacker-g_entities, killSpreeMessages[i]);
+                break;
+            }
+        }
+    }
+// End Kill Counter - BuLLy
 			}
 	
 			attacker->client->lastKillTime = level.time;

@@ -1563,6 +1563,9 @@ extern	vmCvar_t	g_explosionKnockback;
 //Health Regeneration - BuLLy 11/06/2024
 extern 	vmCvar_t	g_healing;
 
+//Kill Counter - BuLLy 13/06/2024
+extern		vmCvar_t	g_KillCounter;
+
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
 int		trap_Milliseconds( void );
