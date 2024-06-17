@@ -1323,6 +1323,10 @@ extern	vmCvar_t	g_password;
 extern	vmCvar_t	g_needpass;
 extern	vmCvar_t	g_gravity;
 extern	vmCvar_t	g_speed;
+//AquaLaPipa 2024-06-17
+extern	vmCvar_t	g_suddenDeathgravity;
+extern	vmCvar_t	g_suddenDeathspeed;
+//EoP
 extern	vmCvar_t	g_knockback;
 extern	vmCvar_t	g_forcerespawn;
 extern	vmCvar_t	g_inactivity;
