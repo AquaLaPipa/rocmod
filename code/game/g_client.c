@@ -1322,7 +1322,9 @@ void ClientUserinfoChanged( int clientNum )
 			}
 			else
 			{
-				trap_SendServerCommand( -1, va("print \"%s renamed to %s\n\"", oldname, client->pers.netname) );
+				G_BroadcastSound( "sound/npc/cem1/comm/01attention.mp3" );
+				trap_SendServerCommand( -1, va("print \"^7[ %s ^3has a ^5NEW ALIAS ^7= %s ^7]\n\"", oldname, client->pers.netname ) );
+				trap_SendServerCommand( -1, va("chat -1 \"^7[ %s ^3has a ^5NEW ALIAS ^7= %s ^7]\n\"", oldname, client->pers.netname ) );
 				client->pers.netnameTime = level.time;
 			}
 		}
