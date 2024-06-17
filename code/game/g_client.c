@@ -1294,6 +1294,7 @@ void ClientUserinfoChanged( int clientNum )
 	{
 		if ( client->pers.identity && oldidentity && client->pers.identity != oldidentity && team != TEAM_SPECTATOR )
 		{
+			G_BroadcastSound( "sound/npc/shop4/agent03/03where.mp3" );
 			trap_SendServerCommand( -1, va("print \"%s" S_COLOR_WHITE " has changed identities\n\"", client->pers.netname ) );
 		}
 
@@ -1583,8 +1584,10 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot )
 	{
 		// Set the last connecting player for the #z token
 		level.lastPlayer = clientNum;
-
-		trap_SendServerCommand( -1, va("print \"%s" S_COLOR_WHITE " is connecting...\n\"", client->pers.netname) );
+		
+		G_BroadcastSound( "sound/npc/air3/terrorist01/02hey.mp3" );
+		trap_SendServerCommand( -1, va("print \"%s" S_COLOR_YELLOW " is connecting... ^7[^5NEW CONNECTION^7]\n\"", client->pers.netname) );
+		trap_SendServerCommand( -1, va("chat -1 \"^7[^5NEW PLAYER:^7] ^3 %s" S_COLOR_WHITE " ^7is connecting...\n\"", client->pers.netname) );
 
 		// Broadcast team change if not going to spectator
 		if ( level.gametypeData->teams && client->sess.team != TEAM_SPECTATOR ) 
@@ -2158,7 +2161,9 @@ void ClientSpawn(gentity_t *ent)
 	// Handle a deferred name change
 	if ( client->pers.deferredname[0] )
 	{
-		trap_SendServerCommand( -1, va("print \"%s" S_COLOR_WHITE " renamed to %s\n\"", client->pers.netname, client->pers.deferredname) );
+		G_BroadcastSound( "sound/npc/cem1/comm/01attention.mp3" );
+		trap_SendServerCommand( -1, va("print \"^7[ %s" S_COLOR_WHITE " ^3has a ^5NEW ALIAS ^7= %s ^7]\n\"", client->pers.netname, client->pers.deferredname ) );
+		trap_SendServerCommand( -1, va("cp \"^7[ %s" S_COLOR_WHITE " ^3has a ^5NEW ALIAS ^7= %s ^7]\n\"", client->pers.netname, client->pers.deferredname ) );
 		strcpy ( client->pers.netname, client->pers.deferredname );
 		client->pers.deferredname[0] = '\0';
 		client->pers.netnameTime = level.time;
@@ -2232,6 +2237,8 @@ void ClientDisconnect( int clientNum )
 	}
 
 	G_LogPrintf( "ClientDisconnect: %i\n", clientNum );
+	
+	G_BroadcastSound( "sound/npc/gladstone/cem1/03lethimgo.mp3" );
 
 	trap_UnlinkEntity (ent);
 	ent->s.modelindex = 0;

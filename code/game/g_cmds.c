@@ -832,21 +832,25 @@ void BroadcastTeamChange( gclient_t *client, int oldTeam )
 	switch ( client->sess.team )
 	{
 		case TEAM_RED:
+			G_BroadcastSound( "sound/npc/team/teams/recon.mp3" );
 			trap_SendServerCommand( -1, va("cp \"%s ^7joined the %s%s ^7team.\n\"", client->pers.netname, level.teamData.teamcolor[1], level.teamData.redName) );
 			break;
 
 		case TEAM_BLUE:
+			G_BroadcastSound( "sound/npc/team/teams/strike.mp3" );
 			trap_SendServerCommand( -1, va("cp \"%s ^7joined the %s%s ^7team.\n\"", client->pers.netname, level.teamData.teamcolor[2], level.teamData.blueName));
 			break;
 
 		case TEAM_SPECTATOR:
 			if ( oldTeam != TEAM_SPECTATOR )
 			{
+				G_BroadcastSound( "sound/npc/team/teams/backup.mp3" );
 				trap_SendServerCommand( -1, va("cp \"%s ^7joined the spectators.\n\"", client->pers.netname));
 			}
 			break;
 
 		case TEAM_FREE:
+			G_BroadcastSound( "sound/npc/taylor/liner2/03becareful.mp3" );
 			trap_SendServerCommand( -1, va("cp \"%s ^7joined the battle.\n\"", client->pers.netname));
 			break;
 	}
