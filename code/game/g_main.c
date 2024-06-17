@@ -342,6 +342,10 @@ static cvarTable_t gameCvarTable[] =
 
 	{ &g_speed, "g_speed", "280", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_gravity, "g_gravity", "800", 0, 0.0, 0.0, 0, qtrue  },
+	//AquaLaPipa 2024-06-17
+	{ &g_suddenDeathspeed, "g_suddenDeathspeed", "280", 0, 0.0, 0.0, 0, qtrue  },
+	{ &g_suddenDeathgravity, "g_suddenDeathgravity", "800", 0, 0.0, 0.0, 0, qtrue  },
+	//EoP
 	{ &g_knockback, "g_knockback", "700", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_weaponRespawn, "g_weaponrespawn", "15", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_backpackRespawn, "g_backpackrespawn", "40", 0, 0.0, 0.0, 0, qtrue  },
