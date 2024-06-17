@@ -21,3 +21,5 @@
 8. Added Kill Counter: Every kill now displays a notfication in the center of the screen with your current kill count, useful if you are on a killing spree.
 
 9. Added Killing Spree Notification: Spree notifications now also appear in the chat.
+
+10. Added sound notifications for player events such as name changes, connect, disconnect, identity changes, team changes
