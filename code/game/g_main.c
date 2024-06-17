@@ -39,6 +39,10 @@ vmCvar_t	g_maxGameClients;
 vmCvar_t	g_dedicated;
 vmCvar_t	g_speed;
 vmCvar_t	g_gravity;
+//AquaLaPipa 2024-07-17
+vmCvar_t	g_suddenDeathspeed;
+vmCvar_t	g_suddenDeathgravity;
+//EoP
 vmCvar_t	g_cheats;
 vmCvar_t	g_knockback;
 vmCvar_t	g_forcerespawn;
@@ -3045,6 +3049,11 @@ void CheckExitRules( void )
 					{
 						G_BroadcastSound( voicecmds.voicePromptSound[14] );
 					}
+					//AquaLaPipa 2024-06-17
+					//trap_SendConsoleCommand( EXEC_APPEND, "exec \"cfgs/suddendeath.cfg\"\n" );
+					g_gravity = g_suddenDeathgravity;
+					g_speed = g_suddenDeathspeed;
+					//EoP
 				}
 			}
 		}
