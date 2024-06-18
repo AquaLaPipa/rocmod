@@ -3393,10 +3393,15 @@ void Cmd_CallVote_f( gentity_t *ent )
 	} else if ( !Q_stricmp( arg1, "mute" ) ) {
 	} else if ( !Q_stricmp( arg1, "callvote" ) ) {
 	} else if ( !Q_stricmp( arg1, "clanvsall" ) ) {
+	} else if ( !Q_stricmp( arg1, "gravity" ) ) { // Gravity Vote - BuLLy 17/06/2024
+	} else if ( !Q_stricmp( arg1, "speed" ) ) { // Speed Vote - BuLLy 17/06/2024
+	} else if ( !Q_stricmp( arg1, "respawn" ) ) { // Respawn Vote - BuLLy 17/06/2024
+	} else if ( !Q_stricmp( arg1, "spawnprotect" ) ) { // Spawn Protect Vote - BuLLy 17/06/2024
 	} else
 	{
-		trap_SendServerCommand( ent-g_entities, "print \"Invalid vote string.\n\"" );
-		trap_SendServerCommand( ent-g_entities, "print \"Vote commands are: map_restart, nextmap, map <mapname>, g_gametype <n>, kick <player>, clientkick <clientnum>, g_doWarmup, timelimit <time>, scorelimit <score>, endmap, shuffleteams, swapteams, referee <client id>, poll <text>, mute, clanvsall <team>.\n\"" );
+		trap_SendServerCommand( ent-g_entities, "print \"\n^7===============\n^1CALL A VOTE\n^7===============\n\"" );
+		//trap_SendServerCommand( ent-g_entities, "print \"^5Usage: ^7/callvote votetype votevalue\n^3Example: callvote map mp_jor1\n\n^5Vote commands are:\n^3map_restart, nextmap, map <mapname>, g_gametype <n>, kick <player>, clientkick <clientnum>, g_doWarmup, timelimit <time>, scorelimit <score>, endmap, shuffleteams, swapteams, referee <client id>, poll <text>, mute, clanvsall <team>, gravity <200 to 800>.\n\"" );
+		trap_SendServerCommand( ent-g_entities, "print \"^3Example: ^7/callvote map mp_jor1\n^7===============\n^3VOTE COMMANDS\n^7/callvote map_restart\n/callvote nextmap\n/callvote map <mapname>\n/callvote g_gametype <gametype>\n/callvote kick <player>\n/callvote clientkick <clientnum>\n/callvote g_doWarmup\n/callvote timelimit <minutes>\n/callvote scorelimit <score>\n/callvote endmap\n/callvote shuffleteams\n/callvote swapteams\n/callvote referee <id>\n/callvote poll <text>\n/callvote mute <id>\n/callvote clanvsall <team>\n/callvote gravity <gravity>\n/callvote speed <speed>\n/callvote respawn <seconds>\n/callvote spawnprotect <seconds>\n\"" );
 		return;
 	}
 
@@ -3614,6 +3619,51 @@ void Cmd_CallVote_f( gentity_t *ent )
 		Com_sprintf ( level.voteDisplayString, sizeof(level.voteDisplayString), "clanvsall %s", arg2 );
 		Com_sprintf ( level.voteString, sizeof(level.voteString ), "clanvsall %s", arg2 );
 	}
+	// Gravity Vote - BuLLy 17/06/2024
+	else if (!Q_stricmp(arg1, "gravity")) {
+    int gravity = atoi(arg2);
+    if (arg2[0] == '\0' || gravity < 200 || gravity > 800) {
+        trap_SendServerCommand(ent - g_entities, "print \"Gravity value must be between 200 and 800.\n\"");
+        return;
+    }
+    Com_sprintf(level.voteString, sizeof(level.voteString), "g_gravity %d", gravity);
+    Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "Change gravity to %d", gravity);
+	}
+
+	// Speed Vote - BuLLy 17/06/2024
+	else if (!Q_stricmp(arg1, "speed")) {
+    int speed = atoi(arg2);
+    if (arg2[0] == '\0' || speed < 280 || speed > 500) {
+        trap_SendServerCommand(ent - g_entities, "print \"Speed value must be between 280 and 500.\n\"");
+        return;
+    }
+    Com_sprintf(level.voteString, sizeof(level.voteString), "g_speed %d", speed);
+    Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "Change speed to %d", speed);
+    } 
+	
+	// Respawn Time Vote - BuLLy 17/06/2024
+	else if (!Q_stricmp(arg1, "respawn")) {
+	int respawnInterval = atoi(arg2);
+	if (arg2[0] == '\0' || respawnInterval < 0 || respawnInterval > 10) {
+		trap_SendServerCommand(ent - g_entities, "print \"Respawn interval must be between 0 and 10.\n\"");
+		return;
+	}
+	Com_sprintf(level.voteString, sizeof(level.voteString), "g_respawninterval %d", respawnInterval);
+	Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "Change respawn interval to %d", respawnInterval);
+	} 
+	
+// Spawn Protection - BuLLy 17/06/2024	
+	else if (!Q_stricmp(arg1, "spawnprotect")) {
+    int spawnProtect = atoi(arg2);
+	if (arg2[0] == '\0' || spawnProtect < 1 || spawnProtect > 5) {
+        trap_SendServerCommand(ent - g_entities, "print \"Spawn protection must be between 1 and 5.\n\"");
+        return;
+    }
+    Com_sprintf(level.voteString, sizeof(level.voteString), "g_respawninvulnerability %d", spawnProtect);
+    Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "Change spawn protection to %d", spawnProtect);
+	}
+// End Custom Votes - BuLLy 17/06/2024
+
 	else if ( !Q_stricmp ( arg1, "timelimit" )     ||
 			  !Q_stricmp ( arg1, "scorelimit" )    ||
 			  !Q_stricmp ( arg1, "map_restart" )   ||  

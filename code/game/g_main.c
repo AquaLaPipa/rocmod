@@ -362,6 +362,8 @@ static cvarTable_t gameCvarTable[] =
 
 	{ &g_respawnInterval, "g_respawnInterval", "15", CVAR_ARCHIVE, 0.0, 0.0, 0, qfalse },
 	{ &g_respawnInvulnerability, "g_respawnInvulnerability", "5", CVAR_ARCHIVE, 0.0, 0.0, 0, qfalse },
+	//	{ &g_respawnInterval, "g_respawnInterval", "15", 0, 0.0, 0.0, 0, qtrue  },
+	//	{ &g_respawnInvulnerability, "g_respawnInvulnerability", "5", 0, 0.0, 0.0, 0, qtrue  },
 
 	{ &RMG, "RMG", "0", 0, 0.0, 0.0, },
 	{ &g_debugRMG, "g_debugRMG", "0", 0, 0.0f, 0.0f },
@@ -3391,6 +3393,41 @@ void CheckVote( void )
 			trap_SendConsoleCommand( EXEC_APPEND, va(" g_gametype %s\n", gametype ) );
 			trap_SendConsoleCommand( EXEC_APPEND, va(" map %s\n", mapname ) );
 		}
+// Gravity Vote - BuLLy 17/06/2023
+else if (strstr(level.voteString, "g_gravity")) 
+{
+    int newGravity = atoi(&level.voteString[10]);
+    trap_Cvar_Set("g_gravity", va("%d", newGravity));
+    trap_SendServerCommand(-1, va("cp \"Gravity set to %d by vote.\n\"", newGravity));
+}
+
+// Speed Vote - BuLLy 17/06/2023
+else if (strstr(level.voteString, "g_speed")) 
+{
+    int newSpeed = atoi(&level.voteString[8]);
+    trap_Cvar_Set("g_speed", va("%d", newSpeed));
+    trap_SendServerCommand(-1, va("cp \"Speed set to %d by vote.\n\"", newSpeed));
+}
+
+// Respawn Interval Vote - BuLLy 17/06/2023
+else if (strstr(level.voteString, "g_respawninterval")) 
+{
+    int newRespawnInterval = atoi(&level.voteString[18]);
+    trap_Cvar_Set("g_respawninterval", va("%d", newRespawnInterval));
+    trap_SendServerCommand(-1, va("cp \"^7Respawn interval set to ^3%d seconds ^7by vote.\n\"", newRespawnInterval));
+	trap_SendServerCommand(-1, va("print \"Respawn interval set to %d seconds by vote.\n\"", newRespawnInterval));
+}
+
+// Respawn Invulnerability Vote - BuLLy 17/06/2023
+else if (strstr(level.voteString, "g_respawninvulnerability")) 
+{
+	int newSpawnProtect = atoi(&level.voteString[strlen("g_respawninvulnerability ")]);
+	trap_Cvar_Set("g_respawninvulnerability", va("%d", newSpawnProtect));
+	trap_SendServerCommand(-1, va("cp \"^7Spawn protection set to ^3%d seconds ^7by vote.\n\"", newSpawnProtect));
+	trap_SendServerCommand(-1, va("print \"Spawn protection set to %d seconds by vote.\n\"", newSpawnProtect));
+}
+		
+		// End New Votes
 		else
 		{
 			trap_SendConsoleCommand( EXEC_APPEND, va("%s\n", level.voteString ) );
