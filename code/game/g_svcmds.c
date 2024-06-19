@@ -408,7 +408,7 @@ qboolean ConsoleCommand( void )
 
 		if (Q_stricmp (cmd, "say") == 0) 
 		{
-			trap_SendServerCommand( -1, va("chat -1 \"server: %s\n\"", ConcatArgs(1) ) );
+			trap_SendServerCommand( -1, va("chat -1 \"%s\n\"", ConcatArgs(1) ) );
 			return qtrue;
 		}
 

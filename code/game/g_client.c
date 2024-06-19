@@ -1775,7 +1775,7 @@ void ClientBegin( int clientNum )
 		G_ParseVoiceCommands( NULL, g_messageNew.string, text2, sizeof(text2)-1, sound );
 		G_ParseMessageTokens( text2, text, sizeof(text)-1 );
 
-		trap_SendServerCommand( -1, va("chat -1 \"message: %s\n\"", text ) );
+		trap_SendServerCommand( -1, va("chat -1 \"%s\n\"", text ) ); // Removed message prefix - BuLLy 19/06/2024
 		if ( g_voiceCommandsEnabled.integer && sound[0] )
 		{
 			gentity_t *other;
@@ -2499,7 +2499,7 @@ void ServerMessage( void )
 			G_ParseVoiceCommands( NULL, message, text2, sizeof(text2)-1, sound );
 			G_ParseMessageTokens( text2, text, sizeof(text)-1 );
 
-			trap_SendServerCommand( -1, va("chat -1 \"message: %s\n\"", text ) );
+			trap_SendServerCommand( -1, va("chat -1 \"%s\n\"", text ) );
 			if ( g_voiceCommandsEnabled.integer && sound[0] )
 			{
 				gentity_t *other;
