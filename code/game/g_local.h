@@ -1566,6 +1566,9 @@ extern 	vmCvar_t	g_healing;
 //Kill Counter - BuLLy 13/06/2024
 extern		vmCvar_t	g_KillCounter;
 
+//Flag Capture Swap - BuLLy 18/06/2024
+extern		vmCvar_t	g_flagcaptureswap;
+
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
 int		trap_Milliseconds( void );

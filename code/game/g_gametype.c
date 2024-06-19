@@ -132,6 +132,11 @@ void gametype_trigger_touch ( gentity_t *self, gentity_t *other, trace_t *trace 
 				itemname = "Flag";
 				other->client->sess.modData->flagcaps++;
 				G_LogPrintf("Flag Capture: %i %i: %s\n", other->client->sess.team, other->s.number, other->client->pers.netname );
+					// Swap Teams on Flag Capture - BuLLy 18/06/2024
+				    if (g_flagcaptureswap.integer) {
+					AdminCmd_DoSwapTeams( NULL );
+					}
+					// End Swap Teams on Flag Capture
 			}
 
 			if ( (other->s.number == level.redFlagKiller || other->s.number == level.blueFlagKiller) && g_flagstealAutoPenaltyBox.integer && !level.match )
