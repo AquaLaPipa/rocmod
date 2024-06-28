@@ -292,6 +292,14 @@ vmCvar_t	g_explosionKnockback; // Explosion Knockback - BuLLy 11/06/2024
 vmCvar_t	g_healing; // Health Regeneration - BuLLy 11/06/2024
 vmCvar_t	g_KillCounter; // Kill Counter - BuLLy 13/06/2024
 vmCvar_t	g_flagcaptureswap; // Kill Counter - BuLLy 13/06/2024
+vmCvar_t	g_killingspreefry; // Killing Spree Fry Effect - BuLLy 27/06/2024
+
+// Points: Sprees - BuLLy 27/06/2024
+vmCvar_t	g_points_spree; 
+vmCvar_t	g_points_rampage;
+vmCvar_t	g_points_dominating; 
+vmCvar_t	g_points_unstoppable; 
+vmCvar_t	g_points_godlike; 
 
 static cvarTable_t gameCvarTable[] = 
 {
@@ -627,11 +635,21 @@ static cvarTable_t gameCvarTable[] =
 
 	{ &inMatch, "inMatch", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },
 	{ &exitReady, "exitReady", "0", CVAR_SYSTEMINFO|CVAR_ROM|CVAR_TEMP, 0.0f, 0.0f, 0, qfalse },
+	
+	// New CVARS - BuLLy 2024
 	{ &g_multikillInterval, "g_multikillInterval", "2048", CVAR_ARCHIVE, 0, 0 }, // MultiKill - BuLLy 10/06/2024
 	{ &g_multikillMin, "g_multikillMin", "2", CVAR_ARCHIVE|CVAR_LOCK_RANGE, 2, MULTIKILL_MAX }, // MultiKill - BuLLy 10/06/2024
 	{ &g_healing, "g_healing", "2", CVAR_LATCH, 0.0, 0.0, 0, qfalse },	// Health Regneration - BuLLy 11/06/2024 - 0 = Disabled , 1 = Health Only, 2 = Health And Armor
 	{ &g_KillCounter, "g_KillCounter", "1", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Kill Counter - BuLLy 13/06/2024
 	{ &g_flagcaptureswap, "g_flagcaptureswap", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Flag Capture Swap - BuLLy 13/06/2024
+	{ &g_killingspreefry, "g_killingspreefry", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Killing Spree Fry - BuLLy 27/06/2024
+	
+	// Points: Killing Sprees - BuLLy 27/06/2024
+	{ &g_points_spree, "g_points_spree", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_rampage, "g_points_rampage", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_dominating, "g_points_dominating", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_unstoppable, "g_points_unstoppable", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_godlike, "g_points_godlike", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 };
 
 // bk001129 - made static to avoid aliasing

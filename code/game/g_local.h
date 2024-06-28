@@ -362,6 +362,7 @@ typedef struct
 	int					fryFireTime;
 	int					fryPainTime;
 	gentity_t			*fryInflictor;
+	qboolean 			fryInflictPain; // Pain switch for killing spree fry - BuLLy 27/06/24
 	qboolean			invitedRed;
 	qboolean			invitedBlue;
 	qboolean			clan;
@@ -1568,6 +1569,17 @@ extern		vmCvar_t	g_KillCounter;
 
 //Flag Capture Swap - BuLLy 18/06/2024
 extern		vmCvar_t	g_flagcaptureswap;
+
+//Killing Spree Fry - BuLLy 27/06/2024
+extern		vmCvar_t	g_killingspreefry;
+
+//Points: Sprees - BuLLy 27/06/2024
+extern		vmCvar_t	g_points_spree;
+extern		vmCvar_t	g_points_rampage;
+extern		vmCvar_t	g_points_dominating;
+extern		vmCvar_t	g_points_unstoppable;
+extern		vmCvar_t	g_points_godlike;
+
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );

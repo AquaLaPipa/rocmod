@@ -1979,7 +1979,10 @@ void G_CheckClientFry ( gentity_t* ent )
 	{
 		ent->client->sess.modData->fryPainTime = level.time;
 
-		G_Damage( ent, NULL, ent->client->sess.modData->fryInflictor, NULL, NULL, 10, DAMAGE_NO_TEAMKILL|DAMAGE_NO_PROTECTION, MOD_ADMIN_FRY, 0);
+		//Check if pain should be inflicted - not for killing sprees
+        if (ent->client->sess.modData->fryInflictPain) {
+            G_Damage(ent, NULL, ent->client->sess.modData->fryInflictor, NULL, NULL, 10, DAMAGE_NO_TEAMKILL | DAMAGE_NO_PROTECTION, MOD_ADMIN_FRY, 0);
+        }
 	}
 }
 

@@ -561,7 +561,27 @@ else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_1 && attac
     attacker->client->sess.modData->lastkillspree = KILL_SPREE_1;
 	trap_SendServerCommand( -1, va("cp \"%s%s%s is on a ^3KILLING SPREE!\n^55 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
 	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Star ^7] -- [^z^-^7] ^3- ^7(Killing Spree)\n\"", team, attacker->client->pers.netname, team ) );
-    if ( voicecmds.voicePromptSound[1][0] )
+   					// START POINTS | Kill Spree - BuLLy	
+					if ( g_points_spree.integer > 0 && level.gametypeData->teams ) {
+					int pointsAwarded = g_points_spree.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7is on a ^$Killing Spree\n^P+%d ^7Points\n^,Killing Spree\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Killing Spree)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | Kill Spree - BuLLy	
+					
+					// Apply the fry effect to the player on a killing spree without inflicting pain
+	if ( g_killingspreefry.integer == 1 ) {
+    attacker->client->sess.modData->fryFireTime = level.time - 2000;
+    attacker->client->sess.modData->fryPainTime = level.time - 2000;
+    attacker->client->sess.modData->fryInflictor = NULL;
+    attacker->client->sess.modData->fryInflictPain = qfalse; // Set no pain flag
+
+    recondata[attacker->s.number].attributes |= RECON_FRY;
+    recondata[attacker->s.number].finishtime = level.time;
+	}
+	
+	if ( voicecmds.voicePromptSound[1][0] )
     {
         G_BroadcastSound( voicecmds.voicePromptSound[1] );
     }
@@ -571,7 +591,17 @@ else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_2 && attac
     attacker->client->sess.modData->lastkillspree = KILL_SPREE_2;
 	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is on a ^3RAMPAGE!\n^510 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
 	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^-^7] ^3- ^7(Rampage)\n\"", team, attacker->client->pers.netname, team ) );
-    if ( voicecmds.voicePromptSound[2][0] )
+    
+					// START POINTS | Kill Spree - BuLLy	
+					if ( g_points_rampage.integer > 0 && level.gametypeData->teams ) {
+					int pointsAwarded = g_points_rampage.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7is on a ^$Rampage\n^P+%d ^7Points\n^,Rampage Spree\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Rampage Spree)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | Kill Spree - BuLLy	
+	
+	if ( voicecmds.voicePromptSound[2][0] )
     {
         G_BroadcastSound( voicecmds.voicePromptSound[2] );
     }
@@ -581,7 +611,17 @@ else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_3 && attac
     attacker->client->sess.modData->lastkillspree = KILL_SPREE_3;
 	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3DOMINATING!\n^515 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
 	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^C^-^7] ^3- ^7(Dominating)\n\"", team, attacker->client->pers.netname, team ) );
-    if ( voicecmds.voicePromptSound[3][0] )
+    
+					// START POINTS | Kill Spree - BuLLy	
+					if ( g_points_dominating.integer > 0 && level.gametypeData->teams ) {
+					int pointsAwarded = g_points_dominating.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7is ^$Dominating\n^P+%d ^7Points\n^,Dominating Spree\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Dominating Spree)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | Kill Spree - BuLLy	
+	
+	if ( voicecmds.voicePromptSound[3][0] )
     {
         G_BroadcastSound( voicecmds.voicePromptSound[3] );
     }
@@ -591,7 +631,17 @@ else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_4 && attac
     attacker->client->sess.modData->lastkillspree = KILL_SPREE_4;
 	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3UNSTOPPABLE!\n^520 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
 	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- [^z^@^C^{^-^7] ^3- ^7(Unstoppable!)\n\"", team, attacker->client->pers.netname, team ) );
-    if ( voicecmds.voicePromptSound[4][0] )
+    
+					// START POINTS | Kill Spree - BuLLy	
+					if ( g_points_unstoppable.integer > 0 && level.gametypeData->teams ) {
+					int pointsAwarded = g_points_unstoppable.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7is ^$Unstoppable\n^P+%d ^7Points\n^,Unstoppable Spree\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Unstoppable Spree)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | Kill Spree - BuLLy	
+	
+	if ( voicecmds.voicePromptSound[4][0] )
     {
         G_BroadcastSound( voicecmds.voicePromptSound[4] );
     }
@@ -601,7 +651,17 @@ else if ( attacker->client->sess.modData->currkillspree >= KILL_SPREE_5 && attac
     attacker->client->sess.modData->lastkillspree = KILL_SPREE_5;
 	trap_SendServerCommand( -1, va("cp \"%s%s%s ^7is ^3GODLIKE!\n^525 ^yKILLS!\n\"", team, attacker->client->pers.netname, team));
 	trap_SendServerCommand( -1, va("chat -1 \"^y*^3^-^$^-^3^y* ^7[ %s%s%s ^3is Awarded ^5 ^3Stars ^7] -- ^7[^z^@^C^{^$^7] ^3- ^7(Godlike!)\n\"", team, attacker->client->pers.netname, team ) );
-    if ( voicecmds.voicePromptSound[5][0] )
+    
+					// START POINTS | Kill Spree - BuLLy	
+					if ( g_points_godlike.integer > 0 && level.gametypeData->teams ) {
+					int pointsAwarded = g_points_godlike.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7is ^$Godlike\n^P+%d ^7Points\n^,Godlike Spree\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Godlike Spree)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | Kill Spree - BuLLy	
+	
+	if ( voicecmds.voicePromptSound[5][0] )
     {
         G_BroadcastSound( voicecmds.voicePromptSound[5] );
     }
