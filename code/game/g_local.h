@@ -1581,6 +1581,9 @@ extern		vmCvar_t	g_points_unstoppable;
 extern		vmCvar_t	g_points_godlike;
 extern		vmCvar_t	g_points_spreestopper;
 
+//Points: Events - BuLLy 27/06/2024
+extern		vmCvar_t	g_points_flagcapture;
+
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );
