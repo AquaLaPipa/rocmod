@@ -304,6 +304,7 @@ vmCvar_t	g_points_spreestopper;
 
 // Points: Events - BuLLy 27/06/2024
 vmCvar_t	g_points_flagcapture; 
+vmCvar_t	g_points_firstblood; 
 
 
 static cvarTable_t gameCvarTable[] = 
@@ -658,7 +659,8 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_points_spreestopper, "g_points_spreestopper", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	
 	// Points: Events - BuLLy 27/06/2024
-	{ &g_points_flagcapture, "g_points_flagcapture", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_flagcapture, "g_points_flagcapture", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_firstblood, "g_points_firstblood", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },	
 };
 
 // bk001129 - made static to avoid aliasing

@@ -1583,6 +1583,7 @@ extern		vmCvar_t	g_points_spreestopper;
 
 //Points: Events - BuLLy 27/06/2024
 extern		vmCvar_t	g_points_flagcapture;
+extern		vmCvar_t	g_points_firstblood;
 
 
 void	trap_Printf( const char *fmt );

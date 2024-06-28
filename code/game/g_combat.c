@@ -543,7 +543,15 @@ void player_die(
 					else
 					{
 						level.firstBlood = qtrue;
-						trap_SendServerCommand( -1, va("cp \"^%c%s^%c has drawn first blood!\n\"", team, attacker->client->pers.netname, team));
+						trap_SendServerCommand( -1, va("cp \"%c%s%c has drawn first blood!\n\"", team, attacker->client->pers.netname, team));
+					// START POINTS | First Blood - BuLLy	
+					if ( g_points_firstblood.integer > 0 ) {
+					int pointsAwarded = g_points_firstblood.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7has drawn ^$First Blood\n^P+%d ^7Points\n^,First Blood\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(First Blood)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | First Blood - BuLLy	
 						if ( voicecmds.voicePromptSound[8][0] )
 						{
 							multikill.playNext = level.time + 1600;
@@ -562,6 +570,14 @@ void player_die(
 				{
 					level.firstBlood = qtrue;
 					trap_SendServerCommand( -1, va("cp \"%s%s%s has drawn first blood!\n\"", team, attacker->client->pers.netname, team));
+					// START POINTS | First Blood - BuLLy	
+					if ( g_points_firstblood.integer > 0 ) {
+					int pointsAwarded = g_points_firstblood.integer;
+					trap_SendServerCommand(-1, va("cp \"%s%s%s ^7has drawn ^$First Blood\n^P+%d ^7Points\n^,First Blood\n\"", team, attacker->client->pers.netname, team, pointsAwarded));
+					trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(First Blood)\n\"", attacker->client->pers.netname, pointsAwarded));						
+					G_AddScore( attacker, pointsAwarded );
+					}
+					// END POINTS | First Blood - BuLLy	
 					if ( voicecmds.voicePromptSound[8][0] )
 					{
 						G_BroadcastSound( voicecmds.voicePromptSound[8] );
