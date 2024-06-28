@@ -1579,6 +1579,7 @@ extern		vmCvar_t	g_points_rampage;
 extern		vmCvar_t	g_points_dominating;
 extern		vmCvar_t	g_points_unstoppable;
 extern		vmCvar_t	g_points_godlike;
+extern		vmCvar_t	g_points_spreestopper;
 
 
 void	trap_Printf( const char *fmt );

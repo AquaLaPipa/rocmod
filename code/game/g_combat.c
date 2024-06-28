@@ -299,6 +299,17 @@ void player_die(
 		if ( g_killSpree.integer && self->client->sess.modData->currkillspree >= 5 && attacker && attacker->client )
 		{
 			trap_SendServerCommand( -1, va("cp \"%s%s%s's killing spree was%sended by %s%s^3.\n\"", level.teamData.teamcolor[self->client->sess.team], self->client->pers.netname, level.teamData.teamcolor[self->client->sess.team], sv_modClient.integer?" ":"\n", level.teamData.teamcolor[attacker->client->sess.team], attacker->client->pers.netname));
+			
+        // START POINTS | Kill Spree Stopper - BuLLy
+        if (g_points_spreestopper.integer > 0 && level.gametypeData->teams)
+        {
+            int pointsAwarded = g_points_spreestopper.integer;
+            trap_SendServerCommand(-1, va("cp \"%s%s%s ^7has stopped %s%s's ^7killing spree!\n^P+%d ^7Points\n^,Spree Stopper\n\"", level.teamData.teamcolor[attacker->client->sess.team], attacker->client->pers.netname, level.teamData.teamcolor[attacker->client->sess.team], level.teamData.teamcolor[self->client->sess.team], self->client->pers.netname, pointsAwarded));
+            trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Spree Stopper)\n\"", attacker->client->pers.netname, pointsAwarded));
+            G_AddScore(attacker, pointsAwarded);
+        }
+        // END POINTS | Kill Spree Stopper - BuLLy
+			
 			if ( voicecmds.voicePromptSound[15][0] )
 			{
 				G_BroadcastSound( voicecmds.voicePromptSound[15] );

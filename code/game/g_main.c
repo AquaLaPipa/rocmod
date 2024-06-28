@@ -300,6 +300,8 @@ vmCvar_t	g_points_rampage;
 vmCvar_t	g_points_dominating; 
 vmCvar_t	g_points_unstoppable; 
 vmCvar_t	g_points_godlike; 
+vmCvar_t	g_points_spreestopper; 
+
 
 static cvarTable_t gameCvarTable[] = 
 {
@@ -650,6 +652,7 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_points_dominating, "g_points_dominating", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_unstoppable, "g_points_unstoppable", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_godlike, "g_points_godlike", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_spreestopper, "g_points_spreestopper", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 };
 
 // bk001129 - made static to avoid aliasing
