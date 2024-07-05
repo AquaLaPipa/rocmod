@@ -397,14 +397,17 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace)
 			{
 				level.blueFlagCarrier = other->s.number;
 				level.blueFlagKiller = -1;
+				other->client->sess.flagPickupTime = level.time;  // Capture flag pickup time - BuLLy
 			}
 			else if ( other->client->sess.team == TEAM_BLUE )
 			{
 				level.redFlagCarrier = other->s.number;
 				level.redFlagKiller = -1;
+				other->client->sess.flagPickupTime = level.time;  // Capture flag pickup time - BuLLy
 			}
 		}
 	}
+
 	// the same pickup rules are used for client side and server side
 	else if ( !BG_CanItemBeGrabbed( level.gametype, &ent->s, &other->client->ps ) ) 
 	{

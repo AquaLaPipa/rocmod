@@ -422,6 +422,7 @@ typedef struct
 	int					chatIgnoreClients[2];	// Clients which are ignoring this client. [0] = (0-31)  [1] = (32-63)
 	qboolean			muted;
 	qboolean       		tookDamageSinceFlagPickup; // BuLLy - Clean Run Flag
+	int 				flagPickupTime; // BuLLy - Track Flag Pickup Time
 	sessionMod_t		*modData;				// mod-added session data
 } clientSession_t;
 
@@ -1604,10 +1605,12 @@ extern		vmCvar_t	g_points_spreestopper;
 extern		vmCvar_t	g_points_flagcapture;
 extern		vmCvar_t	g_points_flagkill;
 extern		vmCvar_t	g_points_flagnodamage;
+extern		vmCvar_t	g_points_flaglastsecond;
 extern		vmCvar_t	g_points_flagcapture_5;
 extern		vmCvar_t	g_points_flagcapture_10;
 extern		vmCvar_t	g_points_flagdefend;
 extern		vmCvar_t	g_points_flagdropped;
+extern		vmCvar_t	g_points_flagquick;
 extern		vmCvar_t	g_points_firstblood;
 extern		vmCvar_t	g_points_headshot;
 

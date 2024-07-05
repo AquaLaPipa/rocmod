@@ -61,6 +61,35 @@ void AwardFlagCapturePoints(gentity_t *other) {
         G_LocalSound(other->s.number, "sound/misc/events/elev_beep2.mp3");
         G_AddScore(other, milestonePoints10);
     }
+	
+    // Points for Last Second Flag Capture
+    if (g_points_flaglastsecond.integer > 0 && level.gametypeData->teams) {
+        int remainingTime = (g_timelimit.integer * 60000) - (level.time - level.startTime);
+        int lastSeconds = 10000; // 10 seconds
+
+        if (remainingTime <= lastSeconds) {
+            int pointsAwarded = g_points_flaglastsecond.integer;
+            trap_SendServerCommand(other - g_entities, va("chat -1 \"^$^- ^7FLAG HERO ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+            trap_SendServerCommand(other - g_entities, va("print \"%s ^7earned ^<+%d ^7Points (^$Flag Capture in last 10 seconds^7)\n\"", other->client->pers.netname, pointsAwarded));
+            G_LocalSound(other->s.number, "sound/misc/events/elev_beep2.mp3");
+            G_AddScore(other, pointsAwarded);
+        }
+    }
+	
+// Check for Quick Capture - BuLLy
+if (g_points_flagquick.integer > 0) {
+    int timeSinceFlagPickup = level.time - other->client->sess.flagPickupTime;
+    int speedyFlagThreshold = 10000; // 10 seconds for example
+    G_LogPrintf("Quick Capture Debug: level.time: %d, flagPickupTime: %d, timeSinceFlagPickup: %d\n", level.time, other->client->sess.flagPickupTime, timeSinceFlagPickup); // Debug print
+
+    if (timeSinceFlagPickup <= speedyFlagThreshold) {
+        int speedyFlagPoints = g_points_flagquick.integer;
+        trap_SendServerCommand(other - g_entities, va("chat -1 \"^$^+ ^7SPEEDY FLAG ^+^$ ^<+%s ^JPoints\n\"", speedyFlagPoints));
+        trap_SendServerCommand(other - g_entities, va("print \"%s ^7earned ^<+%s ^7Points (^$Quick Capture^7)\n\"", other->client->pers.netname, speedyFlagPoints));
+        G_AddScore(other, speedyFlagPoints);
+    }
+}
+	
 }
 
 void AwardFlagDefendPoints(gentity_t *ent) {
@@ -102,7 +131,7 @@ void AwardKillSpreePoints(gentity_t *attacker) {
     if (g_points_spree.integer > 0 && level.gametypeData->teams) {
         int pointsAwarded = g_points_spree.integer;
         trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Killing Spree)\n\"", attacker->client->pers.netname, pointsAwarded));
-        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^75 KILLS ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7KILLING SPREE ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
         G_AddScore(attacker, pointsAwarded);
         G_LocalSound(attacker->s.number, "sound/misc/events/track_switch.mp3");
     }
@@ -112,7 +141,7 @@ void AwardRampagePoints(gentity_t *attacker) {
     if (g_points_rampage.integer > 0 && level.gametypeData->teams) {
         int pointsAwarded = g_points_rampage.integer;
         trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Rampage)\n\"", attacker->client->pers.netname, pointsAwarded));
-        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^710 KILLS ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7RAMPAGE ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
         G_AddScore(attacker, pointsAwarded);
         G_LocalSound(attacker->s.number, "sound/misc/events/track_switch.mp3");
     }
@@ -122,7 +151,7 @@ void AwardDominatingPoints(gentity_t *attacker) {
     if (g_points_dominating.integer > 0 && level.gametypeData->teams) {
         int pointsAwarded = g_points_dominating.integer;
         trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Dominating)\n\"", attacker->client->pers.netname, pointsAwarded));
-        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^715 KILLS ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7DOMINATING ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
         G_AddScore(attacker, pointsAwarded);
         G_LocalSound(attacker->s.number, "sound/misc/events/track_switch.mp3");
     }
@@ -132,7 +161,7 @@ void AwardUnstoppablePoints(gentity_t *attacker) {
     if (g_points_unstoppable.integer > 0 && level.gametypeData->teams) {
         int pointsAwarded = g_points_unstoppable.integer;
         trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Unstoppable Spree)\n\"", attacker->client->pers.netname, pointsAwarded));
-        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^720 KILLS ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7UNSTOPPABLE ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
         G_AddScore(attacker, pointsAwarded);
         G_LocalSound(attacker->s.number, "sound/misc/events/track_switch.mp3");
     }
@@ -142,7 +171,7 @@ void AwardGodlikePoints(gentity_t *attacker) {
     if (g_points_godlike.integer > 0 && level.gametypeData->teams) {
         int pointsAwarded = g_points_godlike.integer;
         trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Godlike Spree)\n\"", attacker->client->pers.netname, pointsAwarded));
-        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^$25 KILLS ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7GODLIKE ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
         G_AddScore(attacker, pointsAwarded);
         G_LocalSound(attacker->s.number, "sound/misc/events/track_switch.mp3");
     }
