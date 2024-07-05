@@ -152,6 +152,10 @@ SOURCE=.\g_admincmds.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\g_points.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\g_antilag.c
 # End Source File
 # Begin Source File

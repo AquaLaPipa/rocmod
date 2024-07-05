@@ -82,6 +82,8 @@ set cc=c:\prgrmmng\sof2sdk\bin\sof2lcc -A -DQ3_VM -DMISSIONPACK -S -Wf-target=by
 @if errorlevel 1 goto quit
 %cc%  ../g_refcmds.c
 @if errorlevel 1 goto quit
+%cc%  ../g_points.c
+@if errorlevel 1 goto quit
 
 c:\prgrmmng\sof2sdk\bin\sof2asm -f ../game
 @if errorlevel 1 goto quit

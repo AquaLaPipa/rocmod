@@ -243,8 +243,50 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
 			ps->clip[ATTACK_NORMAL][weapon] = weaponData[weapon].attack[ATTACK_NORMAL].clipSize;
 		}
 	}
+	
+	// Adrenaline Boost - BuLLy 28/06/2024
+	// Adrenaline Boost: Speed and/or Health
+    if (g_adrenaline_speed.integer > 0)
+    {
+        other->client->ps.speed = g_speed.integer + g_adrenaline_speed.integer; // Increase speed
+    }
 
+    if (g_adrenaline_health.integer > 0)
+    {
+        other->client->ps.stats[STAT_HEALTH] += g_adrenaline_health.integer; // Increase health
+        if (other->client->ps.stats[STAT_HEALTH] > MAX_HEALTH + g_adrenaline_health.integer)
+        {
+            other->client->ps.stats[STAT_HEALTH] = MAX_HEALTH + g_adrenaline_health.integer;
+        }
+        other->health = other->client->ps.stats[STAT_HEALTH];
+    }
+
+    if (g_adrenaline_speed.integer > 0 || g_adrenaline_health.integer > 0)
+    {
+        // Set adrenaline time to 10 seconds
+        other->client->adrenalineTime = level.time + 10000;
+    }
+// End Adrenaline Boost - BuLLy 28/06/2024
 	return g_backpackRespawn.integer;
+}
+
+// Adrenaline Boost Void - BuLLy 28/06/2024
+void CheckAdrenalineBoost(gentity_t* ent)
+{
+    if (ent->client->adrenalineTime > 0 && ent->client->adrenalineTime <= level.time)
+    {
+        if (g_adrenaline_speed.integer > 0)
+        {
+            ent->client->ps.speed = g_speed.integer; // Reset speed to normal
+        }
+        if (g_adrenaline_health.integer > 0 && ent->health > MAX_HEALTH)
+        {
+            ent->health = MAX_HEALTH; // Reset health to normal max
+            ent->client->ps.stats[STAT_HEALTH] = MAX_HEALTH;
+        }
+        // Reset adrenalineTime to avoid repeated resets
+        ent->client->adrenalineTime = 0;
+    }
 }
 
 /*
@@ -590,6 +632,9 @@ gentity_t *G_DropItem( gentity_t *ent, gitem_t *item, float angle )
 		if ( ent != ent->culprit && !OnSameTeam( ent, ent->culprit ) )
 		{
 			ent->culprit->client->sess.modData->flagdefends++;
+			// START POINTS | Flag Defend - BuLLy
+			AwardFlagDefendPoints(ent);
+            // END POINTS | Flag Defend - BuLLy
 		}
 
 		G_LogPrintf("(%i) %s drops %s, by (%i) %s, onsameteam:%i\n",
@@ -597,6 +642,10 @@ gentity_t *G_DropItem( gentity_t *ent, gitem_t *item, float angle )
 			ent->culprit->s.number, ent->culprit->client->pers.netname,
 			OnSameTeam( ent, ent->culprit )?1:0);
 		ent->culprit = 0;
+		
+			// START POINTS | Flag Dropped - BuLLy
+			AwardFlagDroppedPoints(ent);
+			// END POINTS | Flag Dropped - BuLLy
 	}
 
 	return dropped;

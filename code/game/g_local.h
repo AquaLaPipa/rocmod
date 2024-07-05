@@ -421,6 +421,7 @@ typedef struct
 	qboolean			noTeamChange;			// cant change teams when this is true (rt_none only)
 	int					chatIgnoreClients[2];	// Clients which are ignoring this client. [0] = (0-31)  [1] = (32-63)
 	qboolean			muted;
+	qboolean       		tookDamageSinceFlagPickup; // BuLLy - Clean Run Flag
 	sessionMod_t		*modData;				// mod-added session data
 } clientSession_t;
 
@@ -576,6 +577,9 @@ struct gclient_s
 
 	vec3_t			maxSave;
 	vec3_t			minSave;
+	
+	// Adrenaline - BuLLy 28/06/24
+	int				adrenalineTime;
 };
 
 //
@@ -1251,6 +1255,20 @@ void	AdminCmd_Backfire		( gentity_t *ent, int type );
 void	AdminCmd_Password		( gentity_t *ent, int type );
 void	AdminCmd_Reset			( gentity_t *ent, int type );
 
+// g_points.c - Points Award System - BuLLy
+void 	AwardFlagKillPoints		(gentity_t *attacker, gentity_t *self);
+void 	AwardFlagCapturePoints	(gentity_t *other);
+void 	AwardFlagDefendPoints	(gentity_t *ent);
+void 	AwardFlagDroppedPoints	(gentity_t *ent);
+
+void 	AwardFirstBloodPoints	(gentity_t *attacker);
+void 	AwardKillSpreePoints	(gentity_t *attacker);
+void 	AwardRampagePoints		(gentity_t *attacker);
+void 	AwardDominatingPoints	(gentity_t *attacker);
+void 	AwardUnstoppablePoints	(gentity_t *attacker);
+void 	AwardGodlikePoints		(gentity_t *attacker);
+
+void 	AwardHeadshotPoints		(gentity_t *attacker);
 
 
 // ai_main.c
@@ -1583,7 +1601,18 @@ extern		vmCvar_t	g_points_spreestopper;
 
 //Points: Events - BuLLy 27/06/2024
 extern		vmCvar_t	g_points_flagcapture;
+extern		vmCvar_t	g_points_flagkill;
+extern		vmCvar_t	g_points_flagnodamage;
+extern		vmCvar_t	g_points_flagcapture_5;
+extern		vmCvar_t	g_points_flagcapture_10;
+extern		vmCvar_t	g_points_flagdefend;
+extern		vmCvar_t	g_points_flagdropped;
 extern		vmCvar_t	g_points_firstblood;
+extern		vmCvar_t	g_points_headshot;
+
+//Adrenaline - BuLLy 27/06/2024
+extern		vmCvar_t	g_adrenaline_speed;
+extern		vmCvar_t	g_adrenaline_health;
 
 
 void	trap_Printf( const char *fmt );

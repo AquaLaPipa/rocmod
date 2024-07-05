@@ -304,7 +304,18 @@ vmCvar_t	g_points_spreestopper;
 
 // Points: Events - BuLLy 27/06/2024
 vmCvar_t	g_points_flagcapture; 
+vmCvar_t	g_points_flagnodamage; 
+vmCvar_t	g_points_flagkill;
+vmCvar_t	g_points_flagcapture_5; 
+vmCvar_t	g_points_flagcapture_10; 
+vmCvar_t	g_points_flagdefend; 
+vmCvar_t	g_points_flagdropped; 
 vmCvar_t	g_points_firstblood; 
+vmCvar_t	g_points_headshot; 
+
+// Adrenaline - BuLLy 27/06/2024
+vmCvar_t	g_adrenaline_health; 
+vmCvar_t	g_adrenaline_speed; 
 
 
 static cvarTable_t gameCvarTable[] = 
@@ -660,7 +671,18 @@ static cvarTable_t gameCvarTable[] =
 	
 	// Points: Events - BuLLy 27/06/2024
 	{ &g_points_flagcapture, "g_points_flagcapture", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
-	{ &g_points_firstblood, "g_points_firstblood", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },	
+	{ &g_points_flagnodamage, "g_points_flagnodamage", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagdefend, "g_points_flagdefend", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagdropped, "g_points_flagdropped", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagkill, "g_points_flagkill", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagcapture_5, "g_points_flagcapture_5", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagcapture_10, "g_points_flagcapture_10", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_firstblood, "g_points_firstblood", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_headshot, "g_points_headshot", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+
+	// Adrenaline - BuLLy 28/06/2024
+	{ &g_adrenaline_speed, "g_adrenaline_speed", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_adrenaline_health, "g_adrenaline_health", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },	
 };
 
 // bk001129 - made static to avoid aliasing

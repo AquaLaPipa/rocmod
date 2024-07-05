@@ -138,17 +138,9 @@ void gametype_trigger_touch ( gentity_t *self, gentity_t *other, trace_t *trace 
 					}
 					// End Swap Teams on Flag Capture
 					
-    // START POINTS | Flag Capture - BuLLy 18/06/2024
-    if (g_points_flagcapture.integer > 0 && level.gametypeData->teams)
-    {
-        int additionalPoints = g_points_flagcapture.integer;
-        int totalPointsAwarded = 10 + additionalPoints; // Including the 10 points automatically added by the game
-		trap_SendServerCommand(-1, va("cp \"^P+%d ^7Points\n^,Flag Capture\n\"", totalPointsAwarded));
-        trap_SendServerCommand(-1, va("chat -1 \"%s ^7earned ^3+%d ^7Points ^5(Flag Capture)\n\"", other->client->pers.netname, totalPointsAwarded));
-        G_AddScore(other, additionalPoints);
-    }
-    // END POINTS | Flag Capture - BuLLy
-	
+					// START POINTS | Flag Capture - BuLLy 18/06/2024
+					AwardFlagCapturePoints(other);
+					// END POINTS | Flag Capture - BuLLy
 			}
 
 			if ( (other->s.number == level.redFlagKiller || other->s.number == level.blueFlagKiller) && g_flagstealAutoPenaltyBox.integer && !level.match )
@@ -913,7 +905,7 @@ void CheckGametype ( void )
 					G_Sound(g_entities + level.teamAliveClient[TEAM_BLUE], CHAN_AUTO, G_SoundIndex( voicecmds.voicePromptSound[7] ) );
 				}
 			}
-
+			
 			// If everyone is dead on a team then reset the gametype, but only if 
 			// there was someone on that team to begin with.
 			else if ( !level.teamAliveCount[TEAM_RED] && dead[TEAM_RED] )
