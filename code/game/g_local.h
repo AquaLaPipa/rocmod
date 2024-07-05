@@ -1267,6 +1267,7 @@ void 	AwardRampagePoints		(gentity_t *attacker);
 void 	AwardDominatingPoints	(gentity_t *attacker);
 void 	AwardUnstoppablePoints	(gentity_t *attacker);
 void 	AwardGodlikePoints		(gentity_t *attacker);
+void 	AwardSpreeStopperPoints	(gentity_t *attacker);
 
 void 	AwardHeadshotPoints		(gentity_t *attacker);
 

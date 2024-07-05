@@ -148,6 +148,15 @@ void AwardGodlikePoints(gentity_t *attacker) {
     }
 }
 
+void AwardSpreeStopperPoints(gentity_t *attacker) {
+    if (g_points_spreestopper.integer > 0 && level.gametypeData->teams) {
+        int pointsAwarded = g_points_spreestopper.integer;
+        trap_SendServerCommand(attacker - g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Spree Stopper)\n\"", attacker->client->pers.netname, pointsAwarded));
+        trap_SendServerCommand(attacker - g_entities, va("chat -1 \"^$^- ^7TAXMAN ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
+        G_AddScore(attacker, pointsAwarded);
+    }
+}
+
 /*
 ===============
 GAMEPLAY EVENTS

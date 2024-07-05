@@ -301,13 +301,7 @@ void player_die(
 			trap_SendServerCommand( -1, va("cp \"%s%s%s's killing spree was%sended by %s%s^3.\n\"", level.teamData.teamcolor[self->client->sess.team], self->client->pers.netname, level.teamData.teamcolor[self->client->sess.team], sv_modClient.integer?" ":"\n", level.teamData.teamcolor[attacker->client->sess.team], attacker->client->pers.netname));
 			
         // START POINTS | Kill Spree Stopper - BuLLy
-        if (g_points_spreestopper.integer > 0 && level.gametypeData->teams)
-        {
-            int pointsAwarded = g_points_spreestopper.integer;
-			trap_SendServerCommand(attacker-g_entities, va("print \"%s ^7earned ^<+%d ^7Points ^5(Spree Stopper)\n\"", attacker->client->pers.netname, pointsAwarded));
-			trap_SendServerCommand(attacker-g_entities, va("chat -1 \"^$^- ^7TAXMAN ^+^$ ^<+%d ^JPoints\n\"", pointsAwarded));
-            G_AddScore(attacker, pointsAwarded);
-        }
+		AwardSpreeStopperPoints(attacker);
         // END POINTS | Kill Spree Stopper - BuLLy
 			
 			if ( voicecmds.voicePromptSound[15][0] )

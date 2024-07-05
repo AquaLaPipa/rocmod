@@ -662,6 +662,7 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_killingspreefry, "g_killingspreefry", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, // Killing Spree Fry - BuLLy 27/06/2024
 	
 	// Points: Killing Sprees - BuLLy 27/06/2024
+	{ &g_points_firstblood, "g_points_firstblood", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_spree, "g_points_spree", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_rampage, "g_points_rampage", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_dominating, "g_points_dominating", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
