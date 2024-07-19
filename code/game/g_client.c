@@ -1416,10 +1416,16 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot )
 	value = Info_ValueForKey (userinfo, "cl_guid");
 	Com_sprintf ( guid, sizeof(guid), value );
 
-	if ( strlen(guid) < 32 )
+	/*if ( strlen(guid) < 32 )
+	{
+		return "Identification error";
+	}*/
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	if ( strlen(guid) < 32 && !isBot )
 	{
 		return "Identification error";
 	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey (userinfo, "ip");
