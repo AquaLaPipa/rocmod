@@ -39,8 +39,21 @@ vmCvar_t	g_maxGameClients;
 vmCvar_t	g_dedicated;
 vmCvar_t	g_speed;
 vmCvar_t	g_gravity;
+//START -=[L!VE]=-AQUARIUS 2024-06-09
+vmCvar_t	g_suddenDeathspeed;
+vmCvar_t	g_suddenDeathgravity;
+//END -=[L!VE]=-AQUARIUS 2024-06-09
 vmCvar_t	g_cheats;
 vmCvar_t	g_knockback;
+//START -=[L!VE]=-AQUARIUS 2024-06-09
+vmCvar_t	g_knockbackGame;
+vmCvar_t    	g_gungame;
+vmCvar_t    	g_gungame_pickups;
+vmCvar_t	g_selfDamage;
+vmCvar_t	g_selfDamageValue;
+vmCvar_t	g_allowKnifeClimb;
+vmCvar_t	g_disableKnife;
+//END -=[L!VE]=-AQUARIUS 2024-06-09
 vmCvar_t	g_forcerespawn;
 vmCvar_t	g_inactivity;
 vmCvar_t	g_debugMove;
@@ -366,7 +379,20 @@ static cvarTable_t gameCvarTable[] =
 
 	{ &g_speed, "g_speed", "280", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_gravity, "g_gravity", "800", 0, 0.0, 0.0, 0, qtrue  },
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	{ &g_suddenDeathspeed, "g_suddenDeathspeed", "280", 0, 0.0, 0.0, 0, qtrue  },
+	{ &g_suddenDeathgravity, "g_suddenDeathgravity", "800", 0, 0.0, 0.0, 0, qtrue  },
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 	{ &g_knockback, "g_knockback", "700", 0, 0.0, 0.0, 0, qtrue  },
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	{ &g_knockbackGame,		"g_knockbackGame",	 "0",				CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_gungame,			"g_gungame",		 "0",				CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_gungame_pickups,	"g_gungame_pickups", "1",				CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_selfDamage,		"g_selfDamage",		 "1",				CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_selfDamageValue,	"g_selfDamageValue", "0.1",				CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_allowKnifeClimb,	"g_allowKnifeClimb", "1",				0, 0.0f, 0.0f, 0, qfalse },
+	{ &g_disableKnife,		"g_disableKnife",    "0",				CVAR_ARCHIVE|CVAR_LATCH, 0.0f, 0.0f, 0, qfalse },
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 	{ &g_weaponRespawn, "g_weaponrespawn", "15", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_backpackRespawn, "g_backpackrespawn", "40", 0, 0.0, 0.0, 0, qtrue  },
 	{ &g_forcerespawn, "g_forcerespawn", "5", 0, 0.0, 0.0, 0, qtrue },
@@ -3105,6 +3131,11 @@ void CheckExitRules( void )
 					{
 						G_BroadcastSound( voicecmds.voicePromptSound[14] );
 					}
+					//START -=[L!VE]=-AQUARIUS 2024-06-09
+					//trap_SendConsoleCommand( EXEC_APPEND, "exec \"cfgs/suddendeath.cfg\"\n" );
+					g_gravity = g_suddenDeathgravity;
+					g_speed = g_suddenDeathspeed;
+					//END -=[L!VE]=-AQUARIUS 2024-06-09
 				}
 			}
 		}
