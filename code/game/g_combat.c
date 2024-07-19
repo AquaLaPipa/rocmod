@@ -261,6 +261,12 @@ void player_die(
 	char			*headshot;
 	qboolean		voicedone;
 
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	float			ratio;
+	char			*teamcolorAttacker;
+	teamcolorAttacker = level.teamData.teamcolor[attacker->client->sess.team];
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 	voicedone = qfalse;
 
 	attack		 = (mod >> 8) & 0xFF;
@@ -512,6 +518,873 @@ void player_die(
 				attacker->client->sess.modData->recondata->kills++;
 				attacker->client->sess.modData->currkillspree++;
 			}
+
+			//START -=[L!VE]=-AQUARIUS 2024-06-09
+			ratio = attacker->client->sess.modData->recondata->kills - attacker->client->sess.modData->recondata->deaths;
+
+			if ( g_gungame.integer == 1 && !level.warmupTime )
+			{
+				if ( ratio >= 1 && ratio < 3 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SILVER_TALON )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SILVER_TALON );
+					attacker->client->ps.ammo[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SILVER_TALON]=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SILVER_TALON;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Silver Talon\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 3 && ratio < 6 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_USSOCOM_PISTOL )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_USSOCOM_PISTOL );
+					attacker->client->ps.ammo[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_USSOCOM_PISTOL]=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_USSOCOM_PISTOL;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Ussocom Pistol\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 6 && ratio < 9 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M590_SHOTGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M590_SHOTGUN );
+					attacker->client->ps.ammo[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M590_SHOTGUN]=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M590_SHOTGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M590 Shotgun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 9 && ratio < 12 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_USAS_12_SHOTGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_USAS_12_SHOTGUN );
+					attacker->client->ps.ammo[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_USAS_12_SHOTGUN]=weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_USAS_12_SHOTGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a USAS 12 Shotgun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 12 && ratio < 15 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M3A1_SUBMACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M3A1_SUBMACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M3A1_SUBMACHINEGUN]=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M3A1_SUBMACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M3A1 Submachinegun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 15 && ratio < 18 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MICRO_UZI_SUBMACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MICRO_UZI_SUBMACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MICRO_UZI_SUBMACHINEGUN]=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MICRO_UZI_SUBMACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Micro Uzi Submachinegun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 18 && ratio < 21 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_AK74_ASSAULT_RIFLE )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_AK74_ASSAULT_RIFLE );
+					attacker->client->ps.ammo[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_AK74_ASSAULT_RIFLE]=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_AK74_ASSAULT_RIFLE;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a AK74 Assault Rifle\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 21 && ratio < 24 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MP5 )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MP5 );
+					attacker->client->ps.ammo[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MP5]=weaponData[WP_MP5].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MP5;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a MP5\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 24 && ratio < 27 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SIG551 )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SIG551 );
+					attacker->client->ps.ammo[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SIG551]=weaponData[WP_SIG551].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SIG551;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a SIG551\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 27 && ratio < 30 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M60_MACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M60_MACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M60_MACHINEGUN]=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M60_MACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M60\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 30 && ratio < 33 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MM1_GRENADE_LAUNCHER )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MM1_GRENADE_LAUNCHER );
+					attacker->client->ps.ammo[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MM1_GRENADE_LAUNCHER]=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MM1_GRENADE_LAUNCHER;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a MM1 Grenade Launcher\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 33 && ratio < 36 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SMOHG92_GRENADE )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SMOHG92_GRENADE );
+					attacker->client->ps.ammo[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE]=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SMOHG92_GRENADE;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 250;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got Smohg92 Grenades\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 36 && ratio < 39 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MSG90A1 )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MSG90A1 );
+					attacker->client->ps.ammo[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MSG90A1]=weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MSG90A1;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a MSG90A1\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 39 )
+				{
+					trap_SendServerCommand( -1, va("cp \"%s%s%s won this Gun Game!\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE) );
+					level.endMap = qtrue;
+					if ( voicecmds.voicePromptSound[20][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[20] );
+					}
+				}
+			}
+			else if ( g_gungame.integer == 2 && !level.warmupTime )
+			{
+				if ( ratio >= 1 && ratio < 3 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SMOHG92_GRENADE )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SMOHG92_GRENADE );
+					attacker->client->ps.ammo[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE]=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SMOHG92_GRENADE;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 250;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got Smohg92 Grenades\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 3 && ratio < 6 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MM1_GRENADE_LAUNCHER )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MM1_GRENADE_LAUNCHER );
+					attacker->client->ps.ammo[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MM1_GRENADE_LAUNCHER]=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MM1_GRENADE_LAUNCHER;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a MM1 Grenade Launcher\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 6 && ratio < 9 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M60_MACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M60_MACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M60_MACHINEGUN]=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M60_MACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M60\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 9 && ratio < 12 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SIG551 )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SIG551 );
+					attacker->client->ps.ammo[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SIG551]=weaponData[WP_SIG551].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SIG551;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a SIG551\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 12 && ratio < 15 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MP5 )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MP5 );
+					attacker->client->ps.ammo[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MP5]=weaponData[WP_MP5].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MP5;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a MP5\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 15 && ratio < 18 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_AK74_ASSAULT_RIFLE )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_AK74_ASSAULT_RIFLE );
+					attacker->client->ps.ammo[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_AK74_ASSAULT_RIFLE]=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_AK74_ASSAULT_RIFLE;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a AK74 Assault Rifle\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 18 && ratio < 21 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_MICRO_UZI_SUBMACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MICRO_UZI_SUBMACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_MICRO_UZI_SUBMACHINEGUN]=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_MICRO_UZI_SUBMACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Micro Uzi Submachinegun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 21 && ratio < 24 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M3A1_SUBMACHINEGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M3A1_SUBMACHINEGUN );
+					attacker->client->ps.ammo[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M3A1_SUBMACHINEGUN]=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M3A1_SUBMACHINEGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M3A1 Submachinegun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 24 && ratio < 27 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_USAS_12_SHOTGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_USAS_12_SHOTGUN );
+					attacker->client->ps.ammo[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_USAS_12_SHOTGUN]=weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_USAS_12_SHOTGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a USAS 12 Shotgun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 27 && ratio < 30 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_M590_SHOTGUN )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_M590_SHOTGUN );
+					attacker->client->ps.ammo[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_M590_SHOTGUN]=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_M590_SHOTGUN;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a M590 Shotgun\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 30 && ratio < 33 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_USSOCOM_PISTOL )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_USSOCOM_PISTOL );
+					attacker->client->ps.ammo[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_USSOCOM_PISTOL]=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_USSOCOM_PISTOL;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Ussocom Pistol\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 33 && ratio < 36 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SILVER_TALON )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_SILVER_TALON );
+					attacker->client->ps.ammo[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_SILVER_TALON]=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_SILVER_TALON;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got a Silver Talon\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 36 && ratio < 39 && !(attacker->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_KNIFE )) )
+				{
+					attacker->client->ps.stats[STAT_WEAPONS] = ( 1 << WP_KNIFE );
+					attacker->client->ps.ammo[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex].max;
+					attacker->client->ps.clip[ATTACK_NORMAL][WP_KNIFE]=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].clipSize;
+					attacker->client->ps.zoomFov	  = 0;
+					attacker->client->ps.zoomTime  = 0;
+					attacker->client->ps.pm_flags &= ~(PMF_ZOOM_FLAGS);
+					attacker->client->ps.weapon = WP_KNIFE;
+					attacker->client->ps.weaponstate = WEAPON_READY; //WEAPON_SPAWNING;
+					attacker->client->ps.weaponTime = 0;
+					attacker->client->ps.weaponAnimTime = 0;
+					attacker->client->ps.firemode[attacker->client->ps.weapon] = BG_FindFireMode ( attacker->client->ps.weapon, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+					trap_SendServerCommand( -1, va("cp \"%s%s%s has got Knifes\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE));
+					if ( voicecmds.voicePromptSound[19][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[19] );
+					}
+				}
+				else if ( ratio >= 39 )
+				{
+					trap_SendServerCommand( -1, va("cp \"%s%s%s won this Gun Game!\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE) );
+					level.endMap = qtrue;
+					if ( voicecmds.voicePromptSound[20][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[20] );
+					}
+				}
+			}
+			else if ( g_gungame.integer )
+			{
+				if ( ratio >= 39 )
+				{
+					trap_SendServerCommand( -1, va("cp \"%s%s%s won this Gun Game!\n\"", teamcolorAttacker, attacker->client->pers.netname, S_COLOR_WHITE) );
+					level.endMap = qtrue;
+					if ( voicecmds.voicePromptSound[20][0] )
+					{
+						G_BroadcastSound( voicecmds.voicePromptSound[20] );
+					}
+				}
+			}
+			if ( g_gungame.integer == 1 && !level.warmupTime )
+			{
+				if ( ratio == 0 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Silver Talon!\n\"" );
+				}
+				else if ( ratio == 1 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the Ussocom Pistol!\n\"" );
+				}
+				else if ( ratio == 2 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Ussocom Pistol!\n\"" );
+				}
+				else if ( ratio == 3 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 4 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 5 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 6 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 7 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 8 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 9 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 10 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 11 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 12 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 13 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 14 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 15 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 16 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 17 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 18 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 19 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 20 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 21 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 22 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 23 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 24 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M60!\n\"" );
+				}
+				else if ( ratio == 25 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M60!\n\"" );
+				}
+				else if ( ratio == 26 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M60!\n\"" );
+				}
+				else if ( ratio == 27 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the MM1 Grenade Launcher!\n\"" );
+				}
+				else if ( ratio == 28 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the MM1 Grenade Launcher!\n\"" );
+				}
+				else if ( ratio == 29 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the MM1 Grenade Launcher!\n\"" );
+				}
+				else if ( ratio == 30 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive Smohg92 Grenades!\n\"" );
+				}
+				else if ( ratio == 31 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive Smohg92 Grenades!\n\"" );
+				}
+				else if ( ratio == 32 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive Smohg92 Grenades!\n\"" );
+				}
+				else if ( ratio == 33 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the MSG90A1!\n\"" );
+				}
+				else if ( ratio == 34 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the MSG90A1!\n\"" );
+				}
+				else if ( ratio == 35 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the MSG90A1!\n\"" );
+				}
+				else if ( ratio == 36 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to win!\n\"" );
+				}
+				else if ( ratio == 37 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to win!\n\"" );
+				}
+				else if ( ratio == 38 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to win!\n\"" );
+				}
+			}
+			else if ( g_gungame.integer == 2 && !level.warmupTime )
+			{
+				if ( ratio == 0 ) {
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive Smohg92 Grenades!\n\"" );
+				}
+				else if ( ratio == 1 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the MM1 Grenade Launcher!\n\"" );
+				}
+				else if ( ratio == 2 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the MM1 Grenade Launcher!\n\"" );
+				}
+				else if ( ratio == 3 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M60!\n\"" );
+				}
+				else if ( ratio == 4 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M60!\n\"" );
+				}
+				else if ( ratio == 5 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M60!\n\"" );
+				}
+				else if ( ratio == 6 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 7 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 8 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the SIG551!\n\"" );
+				}
+				else if ( ratio == 9 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 10 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 11 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the MP5!\n\"" );
+				}
+				else if ( ratio == 12 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 13 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 14 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the AK74 Assault Rifle!\n\"" );
+				}
+				else if ( ratio == 15 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 16 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 17 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Micro Uzi Submachinegun!\n\"" );
+				}
+				else if ( ratio == 18 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 19 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 20 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M3A1 Submachinegun!\n\"" );
+				}
+				else if ( ratio == 21 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 22 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 23 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the USAS 12 Shotgun!\n\"" );
+				}
+				else if ( ratio == 24 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 25 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 26 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the M590 Shotgun!\n\"" );
+				}
+				else if ( ratio == 27 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the Ussocom Pistol!\n\"" );
+				}
+				else if ( ratio == 28 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the Ussocom Pistol!\n\"" );
+				}
+				else if ( ratio == 29 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Ussocom Pistol!\n\"" );
+				}
+				else if ( ratio == 30 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive the Silver Talon!\n\"" );
+				}
+				else if ( ratio == 31 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive the Silver Talon!\n\"" );
+				}
+				else if ( ratio == 32 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive the Silver Talon!\n\"" );
+				}
+				else if ( ratio == 33 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to receive Knifes!\n\"" );
+				}
+				else if ( ratio == 34 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to receive Knifes!\n\"" );
+				}
+				else if ( ratio == 35 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to receive Knifes!\n\"" );
+				}
+				else if ( ratio == 36 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to win!\n\"" );
+				}
+				else if ( ratio == 37 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to win!\n\"" );
+				}
+				else if ( ratio == 38 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to win!\n\"" );
+				}
+			}
+			else if ( g_gungame.integer )
+			{
+				if ( ratio == 36 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Three more kills to win!\n\"" );
+				}
+				else if ( ratio == 37 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"Two more kills to win!\n\"" );
+				}
+				else if ( ratio == 38 )
+				{
+					trap_SendServerCommand( attacker->client - level.clients, "cp \"One more kill to win!\n\"" );
+				}
+			}
+			//END -=[L!VE]=-AQUARIUS 2024-06-09
 			
 			//Multikill Feature - Maxxi 8/07/2018
 			if ( g_killSpree.integer && !level.warmupTime )
@@ -1301,6 +2174,22 @@ int G_Damage (
 		knockback = 0;
 	}
 
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	if ( g_knockbackGame.integer )
+	{
+		// See if they are invulnerable
+		if ( targ->client && ( level.time - targ->client->invulnerableTime < g_respawnInvulnerability.integer * 1000 ) )
+		{
+			knockback = 0;
+		}
+		// Friendly fire
+		if ( !level.warmupTime && !g_friendlyFire.integer && targ != attacker && OnSameTeam ( targ, attacker ) )
+		{
+			knockback = 0;
+		}
+	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 /*
 	// figure momentum add, even if the damage won't be taken
 	if ( knockback && targ->client ) 
@@ -1332,6 +2221,38 @@ int G_Damage (
 	}
 */
 
+	// figure momentum add, even if the damage won't be taken
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	//if ( knockback && targ->client )
+	if ( knockback && targ->client && (g_knockbackGame.integer || g_selfDamage.integer == 0) )
+	{
+		//G_ApplyKnockback ( targ, dir, knockback );
+		vec3_t	kvel;
+		float	mass;
+
+		mass = 200;
+
+		VectorScale (dir, g_knockback.value * (float)knockback / mass, kvel);
+		VectorAdd (targ->client->ps.velocity, kvel, targ->client->ps.velocity);
+
+		// set the timer so that the other client can't cancel
+		// out the movement immediately
+		if ( !targ->client->ps.pm_time ) {
+			int		t;
+
+			t = knockback * 2;
+			if ( t < 50 ) {
+				t = 50;
+			}
+			if ( t > 200 ) {
+				t = 200;
+			}
+			targ->client->ps.pm_time = t;
+			targ->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+		}
+	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 	// check for completely getting out of the damage
 	if ( !(dflags & DAMAGE_NO_PROTECTION) ) {
 
@@ -1350,6 +2271,15 @@ int G_Damage (
 		{
 			return 0;
 		}
+
+		//START -=[L!VE]=-AQUARIUS 2024-06-09
+		//Knockback game
+		if ( g_knockbackGame.integer )
+		{
+			return 0;
+		}
+		//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 	}
 
 	if ( damage < 1 ) 
@@ -1360,11 +2290,25 @@ int G_Damage (
 	take = damage;
 	save = 0;
 
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
 	// Be careful with grenades
-	if ( attacker == targ )
+	/*if ( attacker == targ )
 	{
 		take *= 2;
+	}*/
+	if ( attacker == targ )
+	{
+		if ( g_selfDamage.integer == 1){
+			take *= 2;
+		}
+		else if ( g_selfDamage.integer == 2){
+			take *= g_selfDamageValue.value;
+		}
+		else if ( g_selfDamage.integer == 0){
+			take *= 0;
+		}
 	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 
 	// 100% cripple means no damage inflicted
 	if ( attacker && attacker->client && recondata[attacker-g_entities].crippleLevel )
