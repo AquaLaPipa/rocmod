@@ -183,6 +183,9 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
 {
 	float			percent = (float)ent->item->quantity / 100.0f;
 	int				i;
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	float			ratio;
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 	playerState_t	*ps;
 
 	ps = &other->client->ps;
@@ -225,7 +228,10 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
 	}
 
 	// Make sure you alwasy get grenades
-	if ( level.pickupsDisabled )
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	//if ( level.pickupsDisabled )
+	if ( level.pickupsDisabled && g_gungame.integer == 0 )
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 	{
 		weapon_t weapon = ps->stats[STAT_OUTFIT_GRENADE];
 
@@ -243,6 +249,43 @@ int Pickup_Backpack ( gentity_t* ent, gentity_t* other )
 			ps->clip[ATTACK_NORMAL][weapon] = weaponData[weapon].attack[ATTACK_NORMAL].clipSize;
 		}
 	}
+
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	ratio = other->client->sess.modData->recondata->kills - other->client->sess.modData->recondata->deaths;
+
+	if ( g_gungame.integer == 1 &&  ratio >= 33 && ratio < 36 && !(other->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SMOHG92_GRENADE )) )
+	{
+		// If the client doesnt even have a grenade then we need to give them one
+		// and fill their clip.  They should have already been give ammo 
+		if ( !(ps->stats[STAT_WEAPONS] & (1<<WP_SMOHG92_GRENADE)) )
+		{
+			int ammoIndex;
+
+			ps->stats[STAT_WEAPONS] |= (1<<WP_SMOHG92_GRENADE);
+
+			// Move over the ammo to a clip
+			ammoIndex = weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex;
+			ps->ammo[ammoIndex] -= weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+			ps->clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE] = weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+		}
+	}
+	if ( g_gungame.integer == 2 &&  ratio >= 1 && ratio < 3 && !(other->client->ps.stats[STAT_WEAPONS] & ( 1 << WP_SMOHG92_GRENADE )) )
+	{
+		// If the client doesnt even have a grenade then we need to give them one
+		// and fill their clip.  They should have already been give ammo 
+		if ( !(ps->stats[STAT_WEAPONS] & (1<<WP_SMOHG92_GRENADE)) )
+		{
+			int ammoIndex;
+
+			ps->stats[STAT_WEAPONS] |= (1<<WP_SMOHG92_GRENADE);
+
+			// Move over the ammo to a clip
+			ammoIndex = weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex;
+			ps->ammo[ammoIndex] -= weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+			ps->clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE] = weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+		}
+	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 	
 	// Adrenaline Boost - BuLLy 28/06/2024
 	// Adrenaline Boost: Speed and/or Health
@@ -732,7 +775,13 @@ gentity_t* G_DropWeapon ( gentity_t* ent, weapon_t weapon, int pickupDelay )
 	gentity_t*	dropped;
 	gitem_t*	item;
 	vec3_t		angles;
-	
+
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	if ( g_gungame.integer && !g_gungame_pickups.integer ) {
+		return NULL;
+	}
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 	if ( weapon <= WP_KNIFE || weapon >= WP_NUM_WEAPONS )
 	{
 		return NULL;
