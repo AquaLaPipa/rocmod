@@ -284,6 +284,38 @@ gentity_t* G_CreateDamageArea ( vec3_t origin, gentity_t* attacker, float damage
 	return damageArea;
 }
 
+//START -=[L!VE]=-AQUARIUS 2024-06-09
+gentity_t* G_IsClientToCloseToKnife ( vec3_t origin, float radius)
+{
+	int i;
+
+	for ( i = 0; i < level.numConnectedClients; i ++ )
+	{
+		gentity_t* other = &g_entities[ level.sortedClients[i] ];
+		vec3_t	   diff;
+
+		if ( other->client->pers.connected != CON_CONNECTED )
+		{
+			continue;
+		}
+
+		if ( G_IsClientSpectating ( other->client ) || G_IsClientDead ( other->client ) )
+		{
+			continue;
+		}
+
+		// See if this client is close enough to yell sniper
+		VectorSubtract ( other->r.currentOrigin, origin, diff );
+		if ( VectorLengthSquared ( diff ) < radius * radius )
+		{
+			return other;
+		}
+	}
+
+	return NULL;
+}
+//END -=[L!VE]=-AQUARIUS 2024-06-09
+
 /*
 ================
 G_MissileImpact
@@ -420,7 +452,24 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
 				pickupEnt->s.apos.trTime=level.time;
 				pickupEnt->clipmask = ent->clipmask;
 				pickupEnt->s.groundEntityNum = trace->entityNum;
-				trap_LinkEntity(pickupEnt);			
+				trap_LinkEntity(pickupEnt);
+
+				//START -=[L!VE]=-AQUARIUS 2024-06-09
+				if (!( G_IsClientToCloseToKnife(ent->r.currentOrigin,50) ) && g_allowKnifeClimb.integer )
+				{
+					gentity_t *tent;
+					tent = G_Spawn();
+					tent->r.contents = CONTENTS_SOLID;
+					VectorCopy(tent->s.angles, pickupEnt->s.apos.trBase);
+					G_SetOrigin(tent,pickupEnt->r.currentOrigin);
+					tent->r.currentOrigin[2] -= 12;
+					tent->nextthink = level.time + 8000;
+					tent->think = G_FreeEntity;
+					VectorSet (tent->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, -ITEM_RADIUS);
+					VectorSet (tent->r.maxs, ITEM_RADIUS, ITEM_RADIUS, ITEM_RADIUS);
+					trap_LinkEntity(tent); 
+				}
+				//END -=[L!VE]=-AQUARIUS 2024-06-09
 			}
 		}
 	}
