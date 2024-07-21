@@ -1903,7 +1903,16 @@ qboolean G_RadiusDamage (
 			{
 				VectorNormalize ( dir );								
 				VectorCopy(dir, hitdir);
-				dir[2] = 0;
+				//START -=[L!VE]=-AQUARIUS 2024-06-09
+				if ( g_knockbackGame.integer || g_selfDamage.integer == 0 )
+				{
+					dir[2] += 0;
+				}
+				else
+				{
+					dir[2] = 0;
+				}
+				//END -=[L!VE]=-AQUARIUS 2024-06-09
 				location = G_GetHitLocation ( ent, origin, dir );
 				location = G_MultipleDamageLocations ( location );
 			}
