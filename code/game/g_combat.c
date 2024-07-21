@@ -292,6 +292,15 @@ void player_die(
 	if ( !(attacker == self && mod == MOD_TEAMCHANGE && !g_teamChangeDeath.integer) )
 	{
 		self->client->sess.modData->recondata->deaths++;
+		//START -=[L!VE]=-AQUARIUS 2024-06-09
+		if ( g_knockbackGame.integer )
+		{
+			G_AddScore ( self, -1 );
+			//g_entities[self->client->lasthurt_us].client->sess.modData->recondata->score++;	//Too ambiguous
+			//level.teamScores[ self->client->sess.team ] -= 1;	//Same team shouldn't suffer from your deaths in environment
+			level.teamScores[ g_entities[self->client->lasthurt_us].client->sess.team ] += 1;
+		}
+		//END -=[L!VE]=-AQUARIUS 2024-06-09
 		if ( self->client->sess.modData->currkillspree > self->client->sess.modData->bestkillspree )
 		{
 			self->client->sess.modData->bestkillspree = self->client->sess.modData->currkillspree;
