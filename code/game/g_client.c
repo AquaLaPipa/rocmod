@@ -859,8 +859,318 @@ void G_UpdateOutfitting ( int clientNum )
 	memset ( client->ps.ammo, 0, sizeof(client->ps.ammo) );
 	memset ( client->ps.clip, 0, sizeof(client->ps.clip) );
 
+	//START -=[L!VE]=-AQUARIUS 2024-06-09
+	ratio = client->sess.modData->recondata->kills - client->sess.modData->recondata->deaths;
+
+	if ( g_gungame.integer == 1 )
+	{
+		if ( ratio < 1 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
+			ammoIndex=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_KNIFE]=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_KNIFE] = BG_FindFireMode ( WP_KNIFE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_KNIFE;
+			equipWeaponGroup = OUTFITTING_GROUP_KNIFE;
+		}
+		else if ( ratio >= 1 && ratio < 2 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SILVER_TALON );
+			ammoIndex=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SILVER_TALON]=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SILVER_TALON] = BG_FindFireMode ( WP_SILVER_TALON, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SILVER_TALON;
+			equipWeaponGroup = OUTFITTING_GROUP_PISTOL;
+		}
+		else if ( ratio >= 2 && ratio < 3 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_USSOCOM_PISTOL );
+			ammoIndex=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_USSOCOM_PISTOL]=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_USSOCOM_PISTOL, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_USSOCOM_PISTOL;
+			equipWeaponGroup = OUTFITTING_GROUP_PISTOL;
+		}
+		else if ( ratio >= 3 && ratio < 4 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M590_SHOTGUN );
+			ammoIndex=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M590_SHOTGUN]=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_M590_SHOTGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M590_SHOTGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 4 && ratio < 5 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_USAS_12_SHOTGUN );
+			ammoIndex=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_USAS_12_SHOTGUN]=weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_USAS_12_SHOTGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_USAS_12_SHOTGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 5 && ratio < 6 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M3A1_SUBMACHINEGUN );
+			ammoIndex=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M3A1_SUBMACHINEGUN]=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M3A1_SUBMACHINEGUN] = BG_FindFireMode ( WP_M3A1_SUBMACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M3A1_SUBMACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 6 && ratio < 7 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MICRO_UZI_SUBMACHINEGUN );
+			ammoIndex=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MICRO_UZI_SUBMACHINEGUN]=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MICRO_UZI_SUBMACHINEGUN] = BG_FindFireMode ( WP_MICRO_UZI_SUBMACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MICRO_UZI_SUBMACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 7 && ratio < 8 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_AK74_ASSAULT_RIFLE );
+			ammoIndex=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_AK74_ASSAULT_RIFLE]=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_AK74_ASSAULT_RIFLE] = BG_FindFireMode ( WP_AK74_ASSAULT_RIFLE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_AK74_ASSAULT_RIFLE;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 8 && ratio < 9 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MP5 );
+			ammoIndex=weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MP5]=weaponData[WP_MP5].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MP5] = BG_FindFireMode ( WP_MP5, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MP5;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 9 && ratio < 10 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SIG551 );
+			ammoIndex=weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SIG551]=weaponData[WP_SIG551].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SIG551] = BG_FindFireMode ( WP_SIG551, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SIG551;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 10 && ratio < 11 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M60_MACHINEGUN );
+			ammoIndex=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M60_MACHINEGUN]=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M60_MACHINEGUN] = BG_FindFireMode ( WP_M60_MACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M60_MACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 11 && ratio < 12 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MM1_GRENADE_LAUNCHER );
+			ammoIndex=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MM1_GRENADE_LAUNCHER]=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MM1_GRENADE_LAUNCHER] = BG_FindFireMode ( WP_MM1_GRENADE_LAUNCHER, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MM1_GRENADE_LAUNCHER;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 12 && ratio < 13 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SMOHG92_GRENADE );
+			ammoIndex=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE]=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SMOHG92_GRENADE] = BG_FindFireMode ( WP_SMOHG92_GRENADE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SMOHG92_GRENADE;
+			equipWeaponGroup = OUTFITTING_GROUP_GRENADE;
+		}
+		else if ( ratio >= 13 && ratio < 15 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MSG90A1 );
+			ammoIndex=weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MSG90A1]=weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MSG90A1] = BG_FindFireMode ( WP_MSG90A1, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MSG90A1;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+	}
+	else if ( g_gungame.integer == 2 )
+	{
+		if ( ratio < 1 ) {
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MSG90A1 );
+			ammoIndex=weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MSG90A1]=weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MSG90A1].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MSG90A1] = BG_FindFireMode ( WP_MSG90A1, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MSG90A1;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 1 && ratio < 2 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SMOHG92_GRENADE );
+			ammoIndex=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SMOHG92_GRENADE]=weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SMOHG92_GRENADE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SMOHG92_GRENADE] = BG_FindFireMode ( WP_SMOHG92_GRENADE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SMOHG92_GRENADE;
+			equipWeaponGroup = OUTFITTING_GROUP_GRENADE;
+		}
+		else if ( ratio >= 2 && ratio < 3 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MM1_GRENADE_LAUNCHER );
+			ammoIndex=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MM1_GRENADE_LAUNCHER]=weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MM1_GRENADE_LAUNCHER].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MM1_GRENADE_LAUNCHER] = BG_FindFireMode ( WP_MM1_GRENADE_LAUNCHER, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MM1_GRENADE_LAUNCHER;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 3 && ratio < 4 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M60_MACHINEGUN );
+			ammoIndex=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M60_MACHINEGUN]=weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M60_MACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M60_MACHINEGUN] = BG_FindFireMode ( WP_M60_MACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M60_MACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 4 && ratio < 5 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SIG551 );
+			ammoIndex=weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SIG551]=weaponData[WP_SIG551].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SIG551].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SIG551] = BG_FindFireMode ( WP_SIG551, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SIG551;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 5 && ratio < 6 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MP5 );
+			ammoIndex=weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MP5]=weaponData[WP_MP5].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MP5].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MP5] = BG_FindFireMode ( WP_MP5, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MP5;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 6 && ratio < 7 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_AK74_ASSAULT_RIFLE );
+			ammoIndex=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_AK74_ASSAULT_RIFLE]=weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_AK74_ASSAULT_RIFLE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_AK74_ASSAULT_RIFLE] = BG_FindFireMode ( WP_AK74_ASSAULT_RIFLE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_AK74_ASSAULT_RIFLE;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 7 && ratio < 8 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_MICRO_UZI_SUBMACHINEGUN );
+			ammoIndex=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_MICRO_UZI_SUBMACHINEGUN]=weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_MICRO_UZI_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_MICRO_UZI_SUBMACHINEGUN] = BG_FindFireMode ( WP_MICRO_UZI_SUBMACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_MICRO_UZI_SUBMACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 8 && ratio < 9 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M3A1_SUBMACHINEGUN );
+			ammoIndex=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M3A1_SUBMACHINEGUN]=weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M3A1_SUBMACHINEGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M3A1_SUBMACHINEGUN] = BG_FindFireMode ( WP_M3A1_SUBMACHINEGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M3A1_SUBMACHINEGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 9 && ratio < 10 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_USAS_12_SHOTGUN );
+			ammoIndex=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_USAS_12_SHOTGUN]=weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USAS_12_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_USAS_12_SHOTGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_USAS_12_SHOTGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_PRIMARY;
+		}
+		else if ( ratio >= 10 && ratio < 11 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_M590_SHOTGUN );
+			ammoIndex=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_M590_SHOTGUN]=weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_M590_SHOTGUN].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_M590_SHOTGUN, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_M590_SHOTGUN;
+			equipWeaponGroup = OUTFITTING_GROUP_SECONDARY;
+		}
+		else if ( ratio >= 11 && ratio < 12 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_USSOCOM_PISTOL );
+			ammoIndex=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_USSOCOM_PISTOL]=weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_USSOCOM_PISTOL].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_M590_SHOTGUN] = BG_FindFireMode ( WP_USSOCOM_PISTOL, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_USSOCOM_PISTOL;
+			equipWeaponGroup = OUTFITTING_GROUP_PISTOL;
+		}
+		else if ( ratio >= 12 && ratio < 13 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SILVER_TALON );
+			ammoIndex=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_SILVER_TALON]=weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_SILVER_TALON].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_SILVER_TALON] = BG_FindFireMode ( WP_SILVER_TALON, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_SILVER_TALON;
+			equipWeaponGroup = OUTFITTING_GROUP_PISTOL;
+		}
+		else if ( ratio >= 13 && ratio < 15 )
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
+			ammoIndex=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex;
+			client->ps.clip[ATTACK_NORMAL][WP_KNIFE]=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].clipSize;
+			client->ps.ammo[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex]=ammoData[weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex].max;
+			client->ps.firemode[WP_KNIFE] = BG_FindFireMode ( WP_KNIFE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+			equipWeapon = WP_KNIFE;
+			equipWeaponGroup = OUTFITTING_GROUP_KNIFE;
+		}
+	}
+	else
+	{
+		// Everyone gets some knives
+		//client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
+		if ( g_disableKnife.integer && g_gungame.integer == 0 )
+		{
+			client->ps.stats[STAT_WEAPONS] &= ~( 1 << WP_KNIFE );
+		}
+		else
+		{
+			client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
+		}
+		ammoIndex=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex;
+		client->ps.clip[ATTACK_NORMAL][WP_KNIFE]=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].clipSize;
+		client->ps.firemode[WP_KNIFE] = BG_FindFireMode ( WP_KNIFE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
+		if ( BG_IsWeaponAvailableForOutfitting ( WP_KNIFE, 2 ) )
+		{
+			client->ps.ammo[ammoIndex]=ammoData[ammoIndex].max;
+		}
+		equipWeapon = WP_KNIFE;
+		equipWeaponGroup = OUTFITTING_GROUP_KNIFE;
+	}
 	// Everyone gets some knives
-	client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
+	/*client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_KNIFE );
 	ammoIndex=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].ammoIndex;
 	client->ps.clip[ATTACK_NORMAL][WP_KNIFE]=weaponData[WP_KNIFE].attack[ATTACK_NORMAL].clipSize;
 	client->ps.firemode[WP_KNIFE] = BG_FindFireMode ( WP_KNIFE, ATTACK_NORMAL, WP_FIREMODE_AUTO );
@@ -871,7 +1181,8 @@ void G_UpdateOutfitting ( int clientNum )
 	}
 
 	equipWeapon = WP_KNIFE;
-	equipWeaponGroup = OUTFITTING_GROUP_KNIFE;
+	equipWeaponGroup = OUTFITTING_GROUP_KNIFE;*/
+	//END -=[L!VE]=-AQUARIUS 2024-06-09
 
 	// Give all the outfitting groups to the player		
 	for ( group = 0; group < OUTFITTING_GROUP_ACCESSORY; group ++ )
