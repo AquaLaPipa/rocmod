@@ -301,6 +301,8 @@ vmCvar_t	g_points_dominating;
 vmCvar_t	g_points_unstoppable; 
 vmCvar_t	g_points_godlike; 
 vmCvar_t	g_points_spreestopper; 
+vmCvar_t	g_points_spreestopper_5; 
+vmCvar_t	g_points_spreestopper_10; 
 
 // Points: Events - BuLLy 27/06/2024
 vmCvar_t	g_points_flagcapture; 
@@ -308,10 +310,12 @@ vmCvar_t	g_points_flagnodamage;
 vmCvar_t	g_points_flagkill;
 vmCvar_t	g_points_flagcapture_5; 
 vmCvar_t	g_points_flagcapture_10; 
-vmCvar_t	g_points_flaglastsecond; 
+vmCvar_t	g_points_flagend; 
+vmCvar_t	g_points_flagstart; 
 vmCvar_t	g_points_flagdefend; 
 vmCvar_t	g_points_flagdropped;
 vmCvar_t	g_points_flagquick; 
+vmCvar_t	g_points_flagequalizer; 
 vmCvar_t	g_points_firstblood; 
 vmCvar_t	g_points_headshot; 
 
@@ -671,6 +675,8 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_points_unstoppable, "g_points_unstoppable", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_godlike, "g_points_godlike", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	{ &g_points_spreestopper, "g_points_spreestopper", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_spreestopper_5, "g_points_spreestopper_5", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
+	{ &g_points_spreestopper_10, "g_points_spreestopper_10", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse }, 
 	
 	// Points: Events - BuLLy 27/06/2024
 	{ &g_points_flagcapture, "g_points_flagcapture", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
@@ -678,10 +684,12 @@ static cvarTable_t gameCvarTable[] =
 	{ &g_points_flagnodamage, "g_points_flagnodamage", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_flagdefend, "g_points_flagdefend", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_flagdropped, "g_points_flagdropped", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
-	{ &g_points_flaglastsecond, "g_points_flaglastsecond", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagstart, "g_points_flagstart", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagend, "g_points_flagend", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_flagcapture_5, "g_points_flagcapture_5", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_flagcapture_10, "g_points_flagcapture_10", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_flagquick, "g_points_flagquick", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
+	{ &g_points_flagequalizer, "g_points_flagequalizer", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_firstblood, "g_points_firstblood", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 	{ &g_points_headshot, "g_points_headshot", "0", CVAR_ARCHIVE, 0.0f, 0.0f, 0, qfalse },
 

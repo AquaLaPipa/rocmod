@@ -1613,6 +1613,7 @@ static void G_SayTo( gentity_t *ent, gentity_t *other, int mode, const char *nam
 	const char*	type;
 	const char*	chat;
 	const char*	color;
+	const char* currentrank;
 
 	if (!other) 
 	{
@@ -1825,6 +1826,14 @@ static void G_SayTo( gentity_t *ent, gentity_t *other, int mode, const char *nam
 	{
 		type = "*spec* ";
 	}
+	// Rank Prefix - BuLLy
+	   else
+    {
+        // Add the rank prefix here
+        currentrank = ranks[ent->client->sess.currentRankIndex];
+        type = va("^-^5%s^- ", currentrank);
+    }
+	//End Rank Prefix - BuLLy
 
 	trap_SendServerCommand( other-g_entities, va("%s %d \"%s%s%s%s\"", chat, ent->s.number, type, name, color, message));
 	if ( adminchat )
@@ -4217,6 +4226,41 @@ void Cmd_AdminCommand_f( gentity_t *ent, int clientNum, int type )
 
 /*
 ==================
+Cmd_PointsCommand_f
+==================
+*/
+void Cmd_PointsCommand_f(gentity_t *ent) {
+    if (trap_Argc() == 1) {
+        G_PrintMessage(ent, "^5=====^3CAPTURE THE FLAG AWARDS^5=====\n");
+        G_PrintMessage(ent, " ^7FLAG MASTER          ^6- Capture a flag.\n");
+        G_PrintMessage(ent, " ^7UNTOUCHABLE FLAG     ^6- Capture a flag without being hurt.\n");
+        G_PrintMessage(ent, " ^7FLAG SPECIALIST      ^6- Capture 5 or more flags in a game\n");
+        G_PrintMessage(ent, " ^7FLAG CRUSADER        ^6- Capture 10 or more flags in a game\n");
+        G_PrintMessage(ent, " ^7FLAG HERO            ^6- Capture a flag in last 10 seconds of a game\n");
+        G_PrintMessage(ent, " ^7FLAG HUNGRY          ^6- Capture a flag in the first 30 seconds of a game\n");
+        G_PrintMessage(ent, " ^7SPEEDY FLAG          ^6- Capture a flag within 10 seconds of picking it up\n");
+        G_PrintMessage(ent, " ^7THE EQUALIZER        ^6- Capture a flag that evens the team scores\n");
+		G_PrintMessage(ent, " ^7FLAG RUNNER          ^6- Attempt to capture a flag but die before capping.\n");
+        G_PrintMessage(ent, " ^7FLAG KEEPER          ^6- Defend a flag by killing flag carrier\n");
+        G_PrintMessage(ent, " ^7FLAG SLAYER          ^6- Kill an enemy while carrying the flag\n\n");
+		G_PrintMessage(ent, "^5=====^3KILLING SPREE AWARDS^5=====\n");
+        G_PrintMessage(ent, " ^7BLOOD THIRSTY        ^6- Get the first blood in a game\n");
+        G_PrintMessage(ent, " ^7KILLING SPREE        ^6- 5 kills without dying\n");
+        G_PrintMessage(ent, " ^7RAMPAGE              ^6- 10 kills without dying\n");
+        G_PrintMessage(ent, " ^7DOMINATING           ^6- 15 kills without dying\n");
+        G_PrintMessage(ent, " ^7UNSTOPPABLE          ^6- 20 kills without dying\n");
+        G_PrintMessage(ent, " ^7GODLIKE              ^6- 25 kills without dying\n");
+        G_PrintMessage(ent, " ^7TAXMAN               ^6- End a players killing spree\n");
+        G_PrintMessage(ent, " ^7SPREE BREAKER        ^6- End 5 or more killing sprees\n");
+        G_PrintMessage(ent, " ^7SPREE TERMINATOR     ^6- End 10 or more killing sprees\n\n");
+		G_PrintMessage(ent, "^5=====^3GAMPLAY AWARDS^5=====\n");
+		G_PrintMessage(ent, " ^7GOOD AIM             ^6- Kill a player with a headshot\n\n");
+        return;
+    }
+}
+
+/*
+==================
 Cmd_SysopAdd_f
 ==================
 */
@@ -5435,6 +5479,10 @@ void ClientCommand( int clientNum ) {
 		Cmd_Score_f (ent);
 	else if (Q_stricmp (cmd, "team") == 0)
 		Cmd_Team_f (ent);
+
+	else if (Q_stricmp(cmd, "points") == 0) // Announce points list in console - BuLLy
+		Cmd_PointsCommand_f(ent);
+
 
 	else if (Q_stricmp (cmd, "adm") == 0)
 		Cmd_AdminCommand_f( ent, clientNum, 1 );

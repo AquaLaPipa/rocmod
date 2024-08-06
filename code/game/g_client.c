@@ -1682,6 +1682,8 @@ void ClientBegin( int clientNum )
 	client->sess.modData->versionChecks = 0;
 	client->sess.modData->versionWarnTime = 0;
 	client->sess.modData->versionWarnCount = 0;
+	client->sess.totalPoints = 0; // Reset Points - BuLLy
+    client->sess.currentRankIndex = 0; // Reset Rank - BuLLy
 
 	client->sess.modData->scanTimer = level.time + 30000;
 
@@ -1801,7 +1803,7 @@ void ClientBegin( int clientNum )
 //			G_BroadcastSound( sound );
 		}
 	}
-
+	
 	DeathmatchScoreboardMessage( ent );
 }
 

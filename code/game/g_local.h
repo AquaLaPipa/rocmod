@@ -396,6 +396,7 @@ typedef struct
 	int					scanTimer;			// Timer used for file scanning
 	int 				AmmoWarningType; 	//0 = No Warning, 1 = Low On Ammo, 2 = Out Of Ammo. - BuLLy 13/06/2024 - Check Ammo
 	qboolean 			AmmoWarningDisplayed; //qtrue ? qfalse - BuLLy 13/06/2024 - Check Ammo
+	int 				spreeStops; // Count Spree Stops - BuLLy
 } sessionMod_t;
 
 // client data that stays across multiple levels or map restarts
@@ -424,6 +425,8 @@ typedef struct
 	qboolean       		tookDamageSinceFlagPickup; // BuLLy - Clean Run Flag
 	int 				flagPickupTime; // BuLLy - Track Flag Pickup Time
 	sessionMod_t		*modData;				// mod-added session data
+	int 				totalPoints; // Total points awarded to the player - BuLLy
+    int 				currentRankIndex; // Current rank index of the player - BuLLy
 } clientSession_t;
 
 //
@@ -828,6 +831,7 @@ void		G_Say					( gentity_t *ent, gentity_t *target, int mode, const char *chatT
 
 void Cmd_Motd_f( gentity_t *ent, int clientNum );
 void Cmd_AdminCommand_f( gentity_t *ent, int clientNum, int type );
+void Cmd_PointsCommand_f(gentity_t *ent); // Points list in console - BuLLy
 void Cmd_SysopAdd_f( gentity_t *ent, int clientNum );
 void Cmd_SysopRemove_f( gentity_t *ent, int clientNum );
 void Cmd_AdminAdd_f( gentity_t *ent, int clientNum );
@@ -1257,6 +1261,7 @@ void	AdminCmd_Password		( gentity_t *ent, int type );
 void	AdminCmd_Reset			( gentity_t *ent, int type );
 
 // g_points.c - Points Award System - BuLLy
+void 	UpdatePlayerPoints		(gentity_t *player, int pointsAwarded);
 void 	AwardFlagKillPoints		(gentity_t *attacker, gentity_t *self);
 void 	AwardFlagCapturePoints	(gentity_t *other);
 void 	AwardFlagDefendPoints	(gentity_t *ent);
@@ -1271,7 +1276,6 @@ void 	AwardGodlikePoints		(gentity_t *attacker);
 void 	AwardSpreeStopperPoints	(gentity_t *attacker);
 
 void 	AwardHeadshotPoints		(gentity_t *attacker);
-
 
 // ai_main.c
 #define MAX_FILEPATH			144
@@ -1594,23 +1598,29 @@ extern		vmCvar_t	g_flagcaptureswap;
 extern		vmCvar_t	g_killingspreefry;
 
 //Points: Sprees - BuLLy 27/06/2024
+extern const char* ranks[];
+
 extern		vmCvar_t	g_points_spree;
 extern		vmCvar_t	g_points_rampage;
 extern		vmCvar_t	g_points_dominating;
 extern		vmCvar_t	g_points_unstoppable;
 extern		vmCvar_t	g_points_godlike;
 extern		vmCvar_t	g_points_spreestopper;
+extern		vmCvar_t	g_points_spreestopper_5;
+extern		vmCvar_t	g_points_spreestopper_10;
 
 //Points: Events - BuLLy 27/06/2024
 extern		vmCvar_t	g_points_flagcapture;
 extern		vmCvar_t	g_points_flagkill;
 extern		vmCvar_t	g_points_flagnodamage;
-extern		vmCvar_t	g_points_flaglastsecond;
+extern		vmCvar_t	g_points_flagend;
+extern		vmCvar_t	g_points_flagstart;
 extern		vmCvar_t	g_points_flagcapture_5;
 extern		vmCvar_t	g_points_flagcapture_10;
 extern		vmCvar_t	g_points_flagdefend;
 extern		vmCvar_t	g_points_flagdropped;
 extern		vmCvar_t	g_points_flagquick;
+extern		vmCvar_t	g_points_flagequalizer;
 extern		vmCvar_t	g_points_firstblood;
 extern		vmCvar_t	g_points_headshot;
 
