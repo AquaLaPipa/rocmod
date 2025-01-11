@@ -409,7 +409,10 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace )
 				pickupEnt->s.angles[2]=knifeAngles[2];
 
 				pickupEnt->think = G_FreeEntity;
-				pickupEnt->nextthink = level.time + 30000;  // Stick around for 30 seconds
+				//AQUARIUS START
+				//pickupEnt->nextthink = level.time + 30000;  // Stick around for 30 seconds
+				pickupEnt->nextthink = level.time + 3000;  // Stick around for 30 seconds
+				//AQUARIUS END
 
 				pickupEnt->count = 1;
 	
