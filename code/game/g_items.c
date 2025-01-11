@@ -673,7 +673,10 @@ void G_EnablePickup ( gentity_t* ent )
 
 	// Go away in 30 seconds
 	ent->think = G_FreeEntity;
-	ent->nextthink = level.time + 30000;
+	//AQUARIUS START
+	//ent->nextthink = level.time + 30000;
+	ent->nextthink = level.time + 3000;
+	//AQUARIUS END
 }
 
 /*
